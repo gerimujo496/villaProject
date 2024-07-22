@@ -7,6 +7,7 @@ function App() {
   const [count, setCount] = useState(0);
   console.log("gimi");
   console.log("hello world");
+  console.log("Enri is killing it");
   return (
     <>
       <div>
