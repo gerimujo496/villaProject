@@ -3,6 +3,8 @@ import { createBrowserRouter } from "react-router-dom";
 import VillaList from "../pages/VillaList";
 import VillaDetails from "../pages/VillaDetails";
 import PrivateRoutes from "../pages/PrivateRoutes";
+import VillasTable from "../components/VillasTable";
+import AdminPage from "../pages/AdminPage";
 
 const router = createBrowserRouter([
   {
@@ -26,7 +28,8 @@ const router = createBrowserRouter([
           { path: "wishlist", element: <h1>Villas you like!</h1> },
           {
             path: "admin",
-            element: <h1>Hello from Admin</h1>,
+            element: <AdminPage/>,
+           
           },
         ],
       },

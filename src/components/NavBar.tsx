@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { HomeOutlined, ShoppingCartOutlined, LogoutOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  HomeOutlined,
+  ShoppingCartOutlined,
+  LogoutOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
 import { Link } from "react-router-dom";
@@ -22,11 +27,16 @@ const items: MenuItem[] = [
     key: "cart",
     icon: <ShoppingCartOutlined />,
   },
-  ...(isAdminAuthenticated() ? [{
-    label: <Link to="/admin">Admin</Link>,
-    key: "admin",
-    icon: <UserOutlined />,
-  }] : []),
+  ...(!isAdminAuthenticated()
+    ? [
+        {
+          // remove ! later
+          label: <Link to="/admin">Admin</Link>,
+          key: "admin",
+          icon: <UserOutlined />,
+        },
+      ]
+    : []),
   {
     label: "Logout",
     key: "logout",
@@ -42,11 +52,11 @@ const NavBar = () => {
 
     if (e.key === "cart") {
       // Show Cart Componenet
-      console.log("Showing Cart Modal")
+      console.log("Showing Cart Modal");
     }
     if (e.key === "logout") {
       // Logout user
-      console.log("Logging out")
+      console.log("Logging out");
     }
   };
 
