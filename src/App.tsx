@@ -1,11 +1,7 @@
-import { useState } from "react";
-
-import { Main } from "./components/Main/Main";
-
-function App() {
-  const [count, setCount] = useState(0);
-
-  return <Main />;
-}
+const App = () => {
+  return (
+    <h1>App</h1>
+  );
+};
 
 export default App;
