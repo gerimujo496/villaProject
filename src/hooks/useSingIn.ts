@@ -1,22 +1,23 @@
 import { useMutation } from "@tanstack/react-query";
 import { UserAuthentication } from "../types/userAuthentication";
-import { SuccesfulSingUp } from "../types/succesfulSingUp";
-import { singIn, singUp } from "../services/auth";
+
+import { singIn } from "../services/auth";
+import { SuccesfulSingIn } from "../types/succesfulSingIn";
+import { useNavigate } from "react-router-dom";
 
 const useSignIn = () => {
-  return useMutation<SuccesfulSingUp, Error, UserAuthentication>({
+  const navigate = useNavigate();
+  return useMutation<SuccesfulSingIn, Error, UserAuthentication>({
     mutationFn: singIn,
     onSuccess: (newUser, variables) => {
       localStorage.setItem("token", newUser.idToken);
+     
       if (variables.email.includes("admin")) {
-        localStorage.setItem("userType", "Admin");
+        navigate("/admin");
       } else {
-        localStorage.setItem("userType", "User");
+        navigate("/");
       }
       return newUser;
-    },
-    onError: (error) => {
-      console.error(error);
     },
   });
 };

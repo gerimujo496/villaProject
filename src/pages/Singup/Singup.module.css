@@ -1,6 +1,7 @@
-.signInContainer {
+.signUpContainer {
     height: 100vh;
     width: 100vw;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -85,10 +86,10 @@
     color: #dc143c; /* Crimson Red for error messages */
     font-size: 0.9rem;
     margin-top: 5px;
-    text-align: center;
+    text-align: left;
   }
   
-  .signInButton {
+  .signUpButton {
     margin-top: 20px;
     display: flex;
     flex-direction: column;
@@ -97,23 +98,23 @@
   
   @media (max-width: 600px) {
     .formContainer {
-      padding: 15px; /* Reduced padding for smaller screens */
-      width: 90%; /* Adjusted width to fit better on small screens */
+      padding: 20px; /* Adjusted padding for small screens */
+      width: 90%; /* Reduced width for small screens */
     }
   
     .title {
-      font-size: 1.4rem; /* Reduced font size for title */
+      font-size: 1.4rem; /* Adjusted title font size */
     }
   
     .inputForm {
-        width:94%;
-      font-size: 0.9rem; /* Slightly smaller font size for inputs */
-      padding: 10px; /* Reduced padding for inputs */
+        width: 94%;
+      font-size: 0.9rem; /* Adjusted input font size */
+      padding: 10px; /* Adjusted input padding */
     }
-    
+  
     .buttonConfirm {
-      padding: 10px 20px; /* Reduced padding for buttons */
-      font-size: 0.9rem; /* Smaller font size for buttons */
+      padding: 10px 20px; /* Adjusted button padding */
+      font-size: 0.9rem; /* Adjusted button font size */
     }
   }
   

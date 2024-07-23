@@ -3,15 +3,17 @@ import { createBrowserRouter } from "react-router-dom";
 import VillaList from "../pages/VillaList";
 import VillaDetails from "../pages/VillaDetails";
 import PrivateRoutes from "../pages/PrivateRoutes";
+import { SignIn } from "../pages/SingIn/SingIn";
+import { SignUp } from "../pages/Singup/Singup";
 
 const router = createBrowserRouter([
   {
     path: "/login",
-    element: <h1>Please log in </h1>,
+    element: <SignIn />,
   },
   {
     path: "/signup",
-    element: <h1>Please signup</h1>,
+    element: <SignUp />,
   },
   {
     element: <PrivateRoutes />,

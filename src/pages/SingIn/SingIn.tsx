@@ -2,37 +2,49 @@ import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserAuthentication } from "../../types/userAuthentication";
 import { schema } from "./validation";
+import {  Navigate, useNavigate } from "react-router-dom";
+import { isAdminAuthenticated, isUserAuthenticated } from "../../utils/auth";
 
-import useSignUp from "../../hooks/useSingUp";
-import styles from "./Singup.module.css";
+import useSignIn from "../../hooks/useSingIn";
+import styles from "./SingIn.module.css";
 
-export const SignUp = () => {
+
+export const SignIn = () => {
+  const navigate = useNavigate();
+  
+
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<UserAuthentication>({ resolver: zodResolver(schema) });
-  const { mutate, error } = useSignUp();
 
-
+  const { mutate, error } = useSignIn();
   const onSubmit = async (form: FieldValues) => {
     mutate({ email: form.email, password: form.password });
-
-    if (localStorage.getItem("userType") === "Admin") {
-      // navigate("/adminPanel");
-      return;
-    }
-    // navigate("/userPanel");
   };
 
+
+  if(isAdminAuthenticated()){
+    return <Navigate to="/admin"/>
+  }
+
+if(isUserAuthenticated()){
+return <Navigate to="/"/>
+}
+
   return (
-    <div className={styles.signUpContainer}>
+    <div className={styles.signInContainer}>
       <div className={styles.goBackButton}>
-        <button className={styles.buttonConfirm}>Go back</button>
+        <button
+          className={styles.buttonConfirm}
+          onClick={() => navigate("/signup")}
+        >
+          Sing Up
+        </button>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
-        <h2 className={styles.title}>Create an Account</h2>
+        <h2 className={styles.title}>Welcome Back</h2>
         <div className={styles.inputForms}>
           <div className={styles.inputGroup}>
             <input
@@ -56,12 +68,14 @@ export const SignUp = () => {
             )}
           </div>
         </div>
-        <div className={styles.signUpButton}>
+        <div className={styles.signInButton}>
           <button type="submit" className={styles.buttonConfirm}>
-            Confirm
+            Sing in
           </button>
           {error && (
-            <p className={styles.errorMessage}>{"We can not create the user"}</p>
+            <p className={styles.errorMessage}>
+              {"Credentials are not correct"}
+            </p>
           )}
         </div>
       </form>
