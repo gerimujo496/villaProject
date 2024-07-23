@@ -1,37 +1,57 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import React from 'react';
+import { Layout, Menu, Input, Card, Row, Col } from 'antd';
+import "./App.css"
 
-function App() {
-  const [count, setCount] = useState(0);
-  console.log("gimi");
-  console.log("hello world");
-  console.log("Enri is killing it");
+const { Header, Content } = Layout;
+
+const VillaCard: React.FC<{ title: string; description: string }> = ({ title, description }) => (
+  <Card title={title} style={{ width: 300, margin: '16px' }}>
+    <p>{description}</p>
+  </Card>
+);
+
+const Filter: React.FC = () => {
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div style={{ padding: '16px' }}>
+      <Input placeholder="Search for villas..." style={{ width: 300 }} />
+    </div>
   );
-}
+};
+
+const VillaList: React.FC = () => {
+  const villas = [
+    { title: 'Villa Sunshine', description: 'A beautiful villa with a sea view.' },
+    { title: 'Villa Moonlight', description: 'A cozy villa in the mountains.' },
+    { title: 'Villa Paradise', description: 'Luxurious villa with a private pool.' },
+  ];
+
+  return (
+    <Row gutter={16}>
+      {villas.map((villa, index) => (
+        <Col span={8} key={index}>
+          <VillaCard title={villa.title} description={villa.description} />
+        </Col>
+      ))}
+    </Row>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <Layout>
+      <Header style={{ background: '#fff', padding: 0 }}>
+        <Menu mode="horizontal">
+          <Menu.Item key="1">Home</Menu.Item>
+          <Menu.Item key="2">About</Menu.Item>
+          <Menu.Item key="3">Contact</Menu.Item>
+        </Menu>
+      </Header>
+      <Content style={{ padding: '20px' }}>
+        <Filter />
+        <VillaList />
+      </Content>
+    </Layout>
+  );
+};
 
 export default App;
