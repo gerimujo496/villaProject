@@ -4,8 +4,11 @@ interface ExtendedJwtPayload extends JwtPayload {
   email: string;
 }
 
-export const getTokenFromLocalStorage = () => {
-  const token = localStorage.getItem("token") || '';
+export const getTokenFromLocalStorage = ():ExtendedJwtPayload | null => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return null;
+  }
   const decoded: ExtendedJwtPayload = jwtDecode(token);
   return decoded;
 };
