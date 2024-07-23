@@ -5,6 +5,7 @@ import VillaDetails from "../pages/VillaDetails";
 import PrivateRoutes from "../pages/PrivateRoutes";
 import { SignIn } from "../pages/SingIn/SingIn";
 import { SignUp } from "../pages/Singup/Singup";
+import { WishList } from "../components/WishList/WishList";
 
 const router = createBrowserRouter([
   {
@@ -25,7 +26,7 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <VillaList /> },
           { path: "villas/:villaId", element: <VillaDetails /> },
-          { path: "wishlist", element: <h1>Villas you like!</h1> },
+          { path: "wishlist", element: <WishList/> },
           {
             path: "admin",
             element: <h1>Hello from Admin</h1>,
