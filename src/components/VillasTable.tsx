@@ -1,124 +1,26 @@
 
-// import React, { useState } from 'react';
-// import { useQuery,  useQueryClient } from '@tanstack/react-query';
-// import { Table, Tag, Input, Space, Button, Modal, Form, InputNumber, Select } from 'antd';
-// import type { ColumnsType, ColumnType } from 'antd/es/table';
+// import React from 'react';
+
+// import { Table, Tag, Input, Space, Button, Modal, Form, InputNumber, Select, Upload } from 'antd';
+// import type { ColumnsType } from 'antd/es/table';
 // import { Villas, LocationType } from '../types/types';
-// import { deleteVilla, getVillas, updateVilla } from '../services/villasServices';
-// import { SearchOutlined } from '@ant-design/icons';
-// import Highlighter from 'react-highlight-words';
+// import { useVillas } from '../hooks/useVillaTable';
 
 // const { Option } = Select;
 
 // const VillasTable: React.FC = () => {
-//   const queryClient = useQueryClient();
-//   const { data, error, isLoading } = useQuery<Villas[]>({
-//     queryKey: ['villas'],
-//     queryFn: getVillas,
-//   });
-
-//   const [searchText, setSearchText] = useState('');
-//   const [searchedColumn, setSearchedColumn] = useState<string>('');
-//   const [editingVilla, setEditingVilla] = useState<Villas | null>(null);
-//   const [isModalOpen, setIsModalOpen] = useState(false);
 //   const [form] = Form.useForm();
-
-//   const handleSearch = (selectedKeys: string[], confirm: () => void, dataIndex: string) => {
-//     confirm();
-//     setSearchText(selectedKeys[0]);
-//     setSearchedColumn(dataIndex);
-//   };
-
-//   const handleReset = (clearFilters?: () => void) => {
-//     if (clearFilters) clearFilters();
-//     setSearchText('');
-//   };
-
-//   const getColumnSearchProps = (dataIndex: keyof Villas): ColumnType<Villas> => ({
-//     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-//       <div style={{ padding: 8 }}>
-//         <Input
-//           ref={searchText as any}
-//           placeholder={`Search ${dataIndex}`}
-//           value={selectedKeys[0]}
-//           onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-//           onPressEnter={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
-//           style={{ marginBottom: 8, display: 'block' }}
-//         />
-//         <Space>
-//           <Button
-//             type="primary"
-//             onClick={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
-//             icon={<SearchOutlined />}
-//             size="small"
-//             style={{ width: 90 }}
-//           >
-//             Search
-//           </Button>
-//           <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
-//             Reset
-//           </Button>
-//         </Space>
-//       </div>
-//     ),
-//     filterIcon: (filtered: boolean) => (
-//       <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
-//     ),
-//     onFilter: (value, record) =>
-//       record[dataIndex]
-//         ? record[dataIndex].toString().toLowerCase().includes((value as string).toLowerCase())
-//         : false,
-//     render: (text) =>
-//       searchedColumn === dataIndex ? (
-//         <Highlighter
-//           highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-//           searchWords={[searchText]}
-//           autoEscape
-//           textToHighlight={text ? text.toString() : ''}
-//         />
-//       ) : (
-//         text
-//       ),
-//   });
-
-//   const handleEdit = (villa: Villas) => {
-//     setEditingVilla(villa);
-//     form.setFieldsValue(villa);
-//     setIsModalOpen(true);
-//   };
-
-//   const handleDelete = (id: string) => {
-//     Modal.confirm({
-//       title: 'Are you sure you want to delete this villa?',
-//       onOk: async () => {
-//         try {
-//           await deleteVilla(id);
-//           queryClient.invalidateQueries({ queryKey: ['villas'] });
-//         } catch (error) {
-//           console.error('Failed to delete villa:', error);
-//         }
-//       },
-//     });
-//   };
-
-//   const handleModalOk = async () => {
-//     try {
-//       const values = await form.validateFields();
-//       if (editingVilla) {
-//         await updateVilla(editingVilla.id, values);
-//         queryClient.invalidateQueries({ queryKey: ['villas'] });
-//         setIsModalOpen(false);
-//         setEditingVilla(null);
-//       }
-//     } catch (error) {
-//       console.error('Failed to update villa:', error);
-//     }
-//   };
-
-//   const handleModalCancel = () => {
-//     setIsModalOpen(false);
-//     setEditingVilla(null);
-//   };
+//   const {
+//     data,
+//     error,
+//     isLoading,
+//     getColumnSearchProps,
+//     handleEdit,
+//     handleDelete,
+//     handleModalOk,
+//     handleModalCancel,
+//     isModalOpen,
+//   } = useVillas(form);
 
 //   const columns: ColumnsType<Villas> = [
 //     {
@@ -175,8 +77,9 @@
 //       title: 'Image',
 //       dataIndex: 'image',
 //       key: 'image',
-//       render: (image) => <img src={image} alt="Villa" style={{ width: 100 }} />,
+//       render: (image) => <img src={image} alt="Villa" style={{ width: 100 }} />
 //     },
+    
 //     {
 //       title: 'Action',
 //       key: 'action',
@@ -196,16 +99,10 @@
 
 //   return (
 //     <>
-//       <Table
-//         columns={columns}
-//         dataSource={data}
-//         rowKey="id"
-//         pagination={{ pageSize: 10 }}
-      
-//       />
+//       <Table columns={columns} dataSource={data} rowKey="id" pagination={{ pageSize: 10 }} />
 //       <Modal
 //         title="Edit Villa"
-//         visible={isModalOpen}
+//         open={isModalOpen}
 //         onOk={handleModalOk}
 //         onCancel={handleModalCancel}
 //       >
@@ -273,23 +170,16 @@
 //           </Form.Item>
 
 //           <Form.Item
-//             label="Image URL"
+//             label="Upload Image"
 //             name="image"
-//             rules={[{ required: true, message: 'Please input the image URL!' }]}
+//             extra="Upload an image file for the villa"
 //           >
-//             <Input />
+//             <Upload name="image"  listType="picture" maxCount={1}>
+//               <Button >Click to Upload</Button>
+//             </Upload>
 //           </Form.Item>
-
-//           <Form.Item
-//             label="Sale Status"
-//             name="isForSale"
-//             rules={[{ required: true, message: 'Please select the sale status!' }]}
-//           >
-//             <Select>
-//               <Option value={true}>For Sale</Option>
-//               <Option value={false}>Sold</Option>
-//             </Select>
-//           </Form.Item>
+          
+         
 //         </Form>
 //       </Modal>
 //     </>
@@ -297,6 +187,7 @@
 // };
 
 // export default VillasTable;
+
 
 import React from 'react';
 
@@ -372,21 +263,13 @@ const VillasTable: React.FC = () => {
       render: (isForSale) => <Tag color={isForSale ? 'green' : 'red'}>{isForSale ? 'Yes' : 'No'}</Tag>,
       sorter: (a, b) => (a.isForSale ? 1 : 0) - (b.isForSale ? 1 : 0),
     },
-    // {
-    //   title: 'Image',
-    //   dataIndex: 'image',
-    //   key: 'image',
-    //   render: (image) => <img src={ "https://firebasestorage.googleapis.com/v0/b/villas-4262f.appspot.com/o/"+ {image}+"?alt=media&token=${downloadTokens}"} alt="Villa" style={{ width: 100 }} />,
-    // },
     {
-        title: 'Image',
-        dataIndex: 'image',
-        key: 'image',
-        render: (image) => {
-          const imageUrl = `https://firebasestorage.googleapis.com/v0/b/villas-4262f.appspot.com/o/${image}?alt=media&token=${downloadTokens}`;
-          return <img src={imageUrl} alt="Villa" style={{ width: 100 }} />;
-        },
+      title: 'Image',
+      dataIndex: 'image',
+      key: 'image',
+      render: (image) => <img src={image} alt="Villa" style={{ width: 100 }} />
     },
+    
     {
       title: 'Action',
       key: 'action',
@@ -409,7 +292,7 @@ const VillasTable: React.FC = () => {
       <Table columns={columns} dataSource={data} rowKey="id" pagination={{ pageSize: 10 }} />
       <Modal
         title="Edit Villa"
-        visible={isModalOpen}
+        open={isModalOpen}
         onOk={handleModalOk}
         onCancel={handleModalCancel}
       >
@@ -479,25 +362,14 @@ const VillasTable: React.FC = () => {
           <Form.Item
             label="Upload Image"
             name="image"
-            valuePropName="fileList"
-            getValueFromEvent={e => Array.isArray(e) ? e : e && e.fileList}
             extra="Upload an image file for the villa"
           >
-            <Upload name="image" action="/upload.do" listType="picture" maxCount={1}>
+            <Upload name="image"  listType="picture" maxCount={1}>
               <Button >Click to Upload</Button>
             </Upload>
           </Form.Item>
-
-          <Form.Item
-            label="Sale Status"
-            name="isForSale"
-            rules={[{ required: true, message: 'Please select the sale status!' }]}
-          >
-            <Select>
-              <Option value={true}>For Sale</Option>
-              <Option value={false}>Sold</Option>
-            </Select>
-          </Form.Item>
+          
+         
         </Form>
       </Modal>
     </>
@@ -505,3 +377,8 @@ const VillasTable: React.FC = () => {
 };
 
 export default VillasTable;
+
+
+
+
+

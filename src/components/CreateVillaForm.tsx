@@ -1,17 +1,28 @@
-
-import React from 'react';
-import { Form, Input, Button, Select, InputNumber, Modal, Upload } from 'antd';
-import { LocationType } from '../types/types';
-import useVillaForm from '../hooks/useCreateVillaForm';
+import React, { useState } from "react";
+import {
+  Form,
+  Input,
+  Button,
+  Select,
+  InputNumber,
+  Modal,
+  Upload,
+  UploadFile,
+} from "antd";
+import { LocationType } from "../types/types";
+import useVillaForm from "../hooks/useCreateVillaForm";
 
 const { Option } = Select;
 
 const VillaForm: React.FC = () => {
-  const { isModalOpen, form, onFinish, showModal, handleCancel} = useVillaForm();
+  const [uploadFileList, setUploadFileList] = useState<UploadFile[]>();
+
+  const { isModalOpen, form, onFinish, showModal, handleCancel } =
+    useVillaForm();
 
   return (
     <>
-      <Button type="primary" onClick={showModal} style={{ margin: '30px' }}>
+      <Button type="primary" onClick={showModal} style={{ margin: "30px" }}>
         Open Modal
       </Button>
 
@@ -25,7 +36,7 @@ const VillaForm: React.FC = () => {
           <Form.Item
             label="Location"
             name="location"
-            rules={[{ required: true, message: 'Please input the location!' }]}
+            rules={[{ required: true, message: "Please input the location!" }]}
           >
             <Input />
           </Form.Item>
@@ -33,7 +44,9 @@ const VillaForm: React.FC = () => {
           <Form.Item
             label="Location Type"
             name="locationType"
-            rules={[{ required: true, message: 'Please select the location type!' }]}
+            rules={[
+              { required: true, message: "Please select the location type!" },
+            ]}
           >
             <Select>
               {Object.values(LocationType).map((type) => (
@@ -47,7 +60,9 @@ const VillaForm: React.FC = () => {
           <Form.Item
             label="Floors"
             name="floors"
-            rules={[{ required: true, message: 'Please input the number of floors!' }]}
+            rules={[
+              { required: true, message: "Please input the number of floors!" },
+            ]}
           >
             <InputNumber min={1} />
           </Form.Item>
@@ -55,7 +70,7 @@ const VillaForm: React.FC = () => {
           <Form.Item
             label="Area"
             name="area"
-            rules={[{ required: true, message: 'Please input the area!' }]}
+            rules={[{ required: true, message: "Please input the area!" }]}
           >
             <InputNumber min={1} />
           </Form.Item>
@@ -63,7 +78,9 @@ const VillaForm: React.FC = () => {
           <Form.Item
             label="Number of Rooms"
             name="numOfRooms"
-            rules={[{ required: true, message: 'Please input the number of rooms!' }]}
+            rules={[
+              { required: true, message: "Please input the number of rooms!" },
+            ]}
           >
             <InputNumber min={1} />
           </Form.Item>
@@ -71,7 +88,12 @@ const VillaForm: React.FC = () => {
           <Form.Item
             label="Number of Bathrooms"
             name="numOfBathrooms"
-            rules={[{ required: true, message: 'Please input the number of bathrooms!' }]}
+            rules={[
+              {
+                required: true,
+                message: "Please input the number of bathrooms!",
+              },
+            ]}
           >
             <InputNumber min={1} />
           </Form.Item>
@@ -79,34 +101,35 @@ const VillaForm: React.FC = () => {
           <Form.Item
             label="Price"
             name="price"
-            rules={[{ required: true, message: 'Please input the price!' }]}
+            rules={[{ required: true, message: "Please input the price!" }]}
           >
             <InputNumber min={1} />
           </Form.Item>
 
-          {/* <Form.Item
-            label="Image URL"
-            name="image"
-            rules={[{ required: true, message: 'Please input the image URL!' }]}
-          >
-            <Input />
-          </Form.Item> */}
           <Form.Item
             label="Upload Image"
             name="image"
-            valuePropName="fileList"
-            getValueFromEvent={e => Array.isArray(e) ? e : e && e.fileList}
             extra="Upload an image file for the villa"
           >
-            <Upload name="image" action="/upload.do" listType="picture" maxCount={1}>
-              <Button >Click to Upload</Button>
+            <Upload
+              name="image"
+              maxCount={1}
+              listType="picture"
+              fileList={uploadFileList}
+              accept=".png"
+              customRequest={({ onSuccess }) => onSuccess?.(null)}
+              onChange={({ fileList }) => setUploadFileList(fileList)}
+            >
+              <Button>Click to Upload</Button>
             </Upload>
           </Form.Item>
 
           <Form.Item
             label="Sale Status"
             name="saleStatus"
-            rules={[{ required: true, message: 'Please select the sale status!' }]}
+            rules={[
+              { required: true, message: "Please select the sale status!" },
+            ]}
           >
             <Select>
               <Option value="forSale">For Sale</Option>
@@ -115,7 +138,7 @@ const VillaForm: React.FC = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" >
+            <Button type="primary" htmlType="submit">
               Add Villa
             </Button>
           </Form.Item>

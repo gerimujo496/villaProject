@@ -10,7 +10,7 @@ export interface Villas{
         numOfRooms: number,
         numOfBathrooms: number,
         price: number,
-        image: string,
+        image: any,
         isForSale: boolean,
     
 }
