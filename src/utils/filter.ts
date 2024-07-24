@@ -12,7 +12,7 @@ export const filterVillas = (villasArray: Villa[], filters: Filters) => {
     const matchesBathrooms = filters.bathrooms
       ? villa.bathrooms === filters.bathrooms
       : true;
-    const matchesLocationType = filters.locationType
+    const matchesLocationType = filters.locationType && filters.locationType !== "all"
       ? villa.locationType === filters.locationType
       : true;
     const matchesPrice =

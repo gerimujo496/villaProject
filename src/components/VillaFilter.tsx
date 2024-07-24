@@ -43,6 +43,7 @@ const VillaFilter = ({ onFilterChange }: Props) => {
       </Form.Item>
       <Form.Item name="locationType" label="Location Type">
         <Select style={{ minWidth: "10rem" }} placeholder="All">
+          <Select.Option value="all">All</Select.Option>
           <Select.Option value="seaSide">Sea side</Select.Option>
           <Select.Option value="hill">Hill</Select.Option>
           <Select.Option value="riverBank">River bank</Select.Option>

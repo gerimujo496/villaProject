@@ -23,7 +23,7 @@ interface Props {
   villa: Villa;
 }
 
-const VillaCard = ({villa}:Props) => {
+const VillaCard = ({ villa }: Props) => {
   const navigate = useNavigate();
   const { mutate } = useSellVilla();
 
@@ -37,14 +37,8 @@ const VillaCard = ({villa}:Props) => {
     villaBuyList,
   } = useStore();
 
-  const isVillaInWishList = isVillaInWishListHelper(
-    villaWishList,
-    villa.id
-  );
-  const isVillaInBuyList = isVillaInBuyListHelper(
-    villaBuyList,
-    villa.id
-  );
+  const isVillaInWishList = isVillaInWishListHelper(villaWishList, villa.id);
+  const isVillaInBuyList = isVillaInBuyListHelper(villaBuyList, villa.id);
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -115,9 +109,7 @@ const VillaCard = ({villa}:Props) => {
         ),
         <strong
           style={{
-            color: villa.isForSale
-              ? "rgba(0, 0, 0, 0.45)"
-              : "#1890ff",
+            color: villa.isForSale ? "rgba(0, 0, 0, 0.45)" : "#1890ff",
           }}
           onClick={(e) => {
             e.stopPropagation();
@@ -147,32 +139,10 @@ const VillaCard = ({villa}:Props) => {
       {contextHolder}
       <Meta title={villa.location} />
       <div style={{ marginTop: 16 }}>
-        {/* <p>
-          <strong>Price:</strong> {`${villa.price}€`}
-        </p>
-        <p>
-          <strong>Size:</strong> {villa.area} sqm
-        </p>
-        <p>
-          <strong>Location:</strong>{" "}
-          {`${villa.locationType} ,${villa.location} `}
-        </p>
-        <p>
-          <strong>Price:</strong> €{villa.price}
-        </p>
-        <p>
-          <strong>Floors:</strong> {villa.floors}
-        </p>
-        <p>
-          <strong>Rooms:</strong> {villa.numOfRooms}
-        </p>
-        <p>
-          <strong>Bathrooms:</strong> {villa.numOfBathrooms}
-        </p> */}
         {cardDataProperty(villa).map((item) => (
-          <p>
+          <p key={item.propertyName}>
             <strong>{item.propertyName}</strong>
-            {item.propertyData}
+            {` ${item.propertyData}`}
           </p>
         ))}
       </div>
