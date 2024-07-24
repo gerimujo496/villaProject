@@ -4,12 +4,15 @@ interface ExtendedJwtPayload extends JwtPayload {
   email: string;
 }
 
-export const getTokenFromLocalStorage = ():ExtendedJwtPayload | null => {
+export const getTokenFromLocalStorage = (): ExtendedJwtPayload | null => {
   const token = localStorage.getItem("token");
+
   if (!token) {
     return null;
   }
+
   const decoded: ExtendedJwtPayload = jwtDecode(token);
+
   return decoded;
 };
 
@@ -33,10 +36,7 @@ export const isAdminAuthenticated = () => {
   if (!tokenData || !tokenData.email) {
     return false; // Token or expiration time not found, assume not authenticated
   }
-
-  if (tokenData.email.includes("admin")) {
-    return true;
-  }
+  return tokenData.email.includes("admin");
 
   return false;
 };

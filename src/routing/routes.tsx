@@ -3,15 +3,18 @@ import { createBrowserRouter } from "react-router-dom";
 import VillaList from "../pages/VillaList";
 import VillaDetails from "../pages/VillaDetails";
 import PrivateRoutes from "../pages/PrivateRoutes";
+import { SignIn } from "../pages/SingIn/SingIn";
+import { SignUp } from "../pages/Singup/Singup";
+import { WishList } from "../components/WishList/WishList";
 
 const router = createBrowserRouter([
   {
     path: "/login",
-    element: <h1>Please log in </h1>,
+    element: <SignIn />,
   },
   {
     path: "/signup",
-    element: <h1>Please signup</h1>,
+    element: <SignUp />,
   },
   {
     element: <PrivateRoutes />,
@@ -23,7 +26,7 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <VillaList /> },
           { path: "villas/:villaId", element: <VillaDetails /> },
-          { path: "wishlist", element: <h1>Villas you like!</h1> },
+          { path: "wishlist", element: <WishList/> },
           {
             path: "admin",
             element: <h1>Hello from Admin</h1>,
