@@ -11,13 +11,13 @@ import { Villa } from "../../types/villas";
 import { NotificationPlacement } from "antd/es/notification/interface";
 
 import {
+  cardDataProperty,
   handleAddVillaToCart,
   handleAddVillaToWishList,
   isVillaInBuyListHelper,
   isVillaInWishListHelper,
 } from "./helper";
 import useSellVilla from "../../hooks/useSellVilla";
-
 
 interface Props {
   villa: Villa;
@@ -147,7 +147,7 @@ const VillaCard = ({villa}:Props) => {
       {contextHolder}
       <Meta title={villa.location} />
       <div style={{ marginTop: 16 }}>
-        <p>
+        {/* <p>
           <strong>Price:</strong> {`${villa.price}€`}
         </p>
         <p>
@@ -168,7 +168,13 @@ const VillaCard = ({villa}:Props) => {
         </p>
         <p>
           <strong>Bathrooms:</strong> {villa.numOfBathrooms}
-        </p>
+        </p> */}
+        {cardDataProperty(villa).map((item) => (
+          <p>
+            <strong>{item.propertyName}</strong>
+            {item.propertyData}
+          </p>
+        ))}
       </div>
     </Card>
   );

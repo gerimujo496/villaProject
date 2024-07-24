@@ -1,22 +1,22 @@
-import { FieldValues, useForm } from "react-hook-form";
+import { FieldValues, useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserAuthentication } from "../../types/userAuthentication";
 import { schema } from "./validation";
 import { Navigate, useNavigate } from "react-router-dom";
 import { isAdminAuthenticated, isUserAuthenticated } from "../../utils/auth";
-
 import useSignUp from "../../hooks/useSingUp";
+import { Button, Input, Form, Typography, Alert } from "antd";
+import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import styles from "./Singup.module.css";
 
 export const SignUp = () => {
   const navigate = useNavigate();
   const { mutate, error } = useSignUp();
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm<UserAuthentication>({ resolver: zodResolver(schema) });
- 
 
   const onSubmit = async (form: FieldValues) => {
     mutate({ email: form.email, password: form.password });
@@ -32,43 +32,74 @@ export const SignUp = () => {
 
   return (
     <div className={styles.signUpContainer}>
-      <div className={styles.goBackButton}>
-        <button className={styles.buttonConfirm} onClick={() => navigate("/")}>
-          Sign In
-        </button>
-      </div>
-      <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
-        <h2 className={styles.title}>Create an Account</h2>
-        <div className={styles.inputForms}>
-          <div className={styles.inputGroup}>
-            <input
-              {...register("email")}
-              placeholder="Email"
-              className={styles.inputForm}
-            />
-            {errors.email && (
-              <p className={styles.errorMessage}>{errors.email.message}</p>
+      <Button
+        type="link"
+        className={styles.goBackButton}
+        onClick={() => navigate("/")}
+      >
+        Sign In
+      </Button>
+
+      <Form
+        name="signup"
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 16 }}
+        onFinish={handleSubmit(onSubmit)}
+        autoComplete="off"
+        className={styles.formContainer}
+      >
+        <Typography.Title level={2} className={styles.title}>
+          Create an Account
+        </Typography.Title>
+        <Form.Item
+          label="Email"
+          validateStatus={errors.email ? "error" : ""}
+          help={errors.email?.message}
+        >
+          <Controller
+            name="email"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <Input
+                {...field}
+                prefix={<MailOutlined />}
+                placeholder="Email"
+              />
             )}
-          </div>
-          <div className={styles.inputGroup}>
-            <input
-              {...register("password")}
-              placeholder="Password"
-              type="password"
-              className={styles.inputForm}
-            />
-            {errors.password && (
-              <p className={styles.errorMessage}>{errors.password.message}</p>
+          />
+        </Form.Item>
+        <Form.Item
+          label="Password"
+          validateStatus={errors.password ? "error" : ""}
+          help={errors.password?.message}
+        >
+          <Controller
+            name="password"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <Input.Password
+                {...field}
+                prefix={<LockOutlined />}
+                placeholder="Password"
+              />
             )}
-          </div>
-        </div>
-        <div className={styles.signUpButton}>
-          <button type="submit" className={styles.buttonConfirm}>
+          />
+        </Form.Item>
+        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+          <Button type="primary" htmlType="submit" className={styles.buttonConfirm}>
             Confirm
-          </button>
-          {error && <p className={styles.errorMessage}>{"An error occured"}</p>}
-        </div>
-      </form>
+          </Button>
+          {error && (
+            <Alert
+              message="An error occurred"
+              type="error"
+              className={styles.errorMessage}
+            />
+          )}
+        </Form.Item>
+      </Form>
     </div>
   );
 };

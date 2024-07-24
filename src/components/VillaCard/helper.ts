@@ -32,3 +32,14 @@ export const handleAddVillaToCart = (args: FunctionPropsHandleWishAndBuy) => {
   }
   args.addToList(args.villa);
 };
+
+export const cardDataProperty = (villa: Villa) => {
+  return [
+    { propertyName: "Price", propertyData: `${villa.price} €` },
+    { propertyName: "Area", propertyData: `${villa.area} sqm` },
+    { propertyName: "Location", propertyData: `${villa.locationType} ,${villa.location} ` },
+    { propertyName: "Floors", propertyData: villa.floors },
+    { propertyName: "Rooms", propertyData: villa.numOfRooms },
+    { propertyName: "Bathrooms", propertyData: villa.numOfBathrooms },
+  ];
+};
