@@ -1,6 +1,6 @@
 export enum LocationType {
-  SeaSide,
-  Hill,
-  RiverBank,
-  Alps,
+  SeaSide="SeaSide",
+  Hill="Hill",
+  RiverBank="RiverBank",
+  Alps="Alps",
 }

@@ -1,14 +1,16 @@
 import React from "react";
-import VillaCard from "../VillaCard";
+import VillaCard from "../VillaCard/VillaCard";
 import styles from "./WishList.module.css";
+import { useStore } from "../../store/store";
 
 export const WishList = () => {
+  const { villaWishList } = useStore();
+
   return (
     <div className={styles.wishListContainer}>
-      <VillaCard />
-      <VillaCard />
-      <VillaCard />
-      <VillaCard />
+      {villaWishList.map((item) => (
+        <VillaCard villa={item} />
+      ))}
     </div>
   );
 };

@@ -10,14 +10,13 @@ import styles from "./Singup.module.css";
 
 export const SignUp = () => {
   const navigate = useNavigate();
-
+  const { mutate, error } = useSignUp();
   const {
     register,
     handleSubmit,
-
     formState: { errors },
   } = useForm<UserAuthentication>({ resolver: zodResolver(schema) });
-  const { mutate, error } = useSignUp();
+ 
 
   const onSubmit = async (form: FieldValues) => {
     mutate({ email: form.email, password: form.password });

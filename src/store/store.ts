@@ -1,22 +1,24 @@
 import { create } from "zustand";
-import { LocationType } from "../types/locationType";
 import { Villa } from "../types/villas";
-import { addVillaToBuyList, addVillaToWishList, removeVillaFromBuyList, removeVillaFromWishList } from "./helper";
+import {
+  addVillaToBuyList,
+  addVillaToWishList,
+  removeVillaFromBuyList,
+  removeVillaFromWishList,
+  setVillaIsBoughtToTrue,
+  setVillaOpenDetails,
+} from "./helper";
+import { ZustandStore } from "../types/zustandStore";
 
-export interface ZustandStore {
-  villaWishList: Villa[];
-  addVillaToWishList: (villa: Villa) => void;
-  removeVillaFromWishList: (id: string) => void;
-  villaBuyList: Villa[];
-  addVillaToBuyList: (villa: Villa) => void;
-  removeVillaFromBuyList: (id: string) => void;
-}
 
-const useStore = create<ZustandStore>((set) => ({
+export const useStore = create<ZustandStore>((set) => ({
   villaWishList: [],
   addVillaToWishList: addVillaToWishList(set),
   removeVillaFromWishList: removeVillaFromWishList(set),
   villaBuyList: [],
+  villaOpenDetails: {},
   addVillaToBuyList: addVillaToBuyList(set),
   removeVillaFromBuyList: removeVillaFromBuyList(set),
+  setVillaOpenDetails: setVillaOpenDetails(set),
+  setVillaIsBoughtToTrue: setVillaIsBoughtToTrue(set),
 }));
