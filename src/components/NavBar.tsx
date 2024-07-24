@@ -1,8 +1,13 @@
 import { useState } from "react";
-import { HomeOutlined, ShoppingCartOutlined, LogoutOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  HomeOutlined,
+  ShoppingCartOutlined,
+  LogoutOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { isAdminAuthenticated } from "../utils/auth";
 
 type MenuItem = Required<MenuProps>["items"][number];
@@ -22,11 +27,15 @@ const items: MenuItem[] = [
     key: "cart",
     icon: <ShoppingCartOutlined />,
   },
-  ...(isAdminAuthenticated() ? [{
-    label: <Link to="/admin">Admin</Link>,
-    key: "admin",
-    icon: <UserOutlined />,
-  }] : []),
+  ...(isAdminAuthenticated()
+    ? [
+        {
+          label: <Link to="/admin">Admin</Link>,
+          key: "admin",
+          icon: <UserOutlined />,
+        },
+      ]
+    : []),
   {
     label: "Logout",
     key: "logout",
@@ -37,16 +46,17 @@ const items: MenuItem[] = [
 const NavBar = () => {
   const [current, setCurrent] = useState("home");
 
+  const navigate = useNavigate();
   const handleNavItemClick: MenuProps["onClick"] = (e) => {
     setCurrent(e.key);
 
     if (e.key === "cart") {
       // Show Cart Componenet
-      console.log("Showing Cart Modal")
     }
     if (e.key === "logout") {
+      localStorage.removeItem("token");
+      navigate("/login");
       // Logout user
-      console.log("Logging out")
     }
   };
 
