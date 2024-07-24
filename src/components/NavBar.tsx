@@ -23,7 +23,7 @@ const items: MenuItem[] = [
     label: <Link to="/wishlist">Wishlist</Link>,
   },
   {
-    label: "Cart",
+    label: <Link to="/cartList" />,
     key: "cart",
     icon: <ShoppingCartOutlined />,
   },
