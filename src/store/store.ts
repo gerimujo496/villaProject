@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Villa } from "../types/villas";
+
 import {
   addVillaToBuyList,
   addVillaToWishList,

@@ -12,6 +12,7 @@ import React from "react";
 import { NotificationPlacement } from "antd/es/notification/interface";
 
 import {
+  cardDataProperty,
   handleAddVillaToCart,
   handleAddVillaToWishList,
   isVillaInBuyListHelper,
@@ -19,12 +20,11 @@ import {
 } from "./helper";
 import useSellVilla from "../../hooks/useSellVilla";
 
-
 interface Props {
   villa: Villa;
 }
 
-const VillaCard: React.FC<Props> = (villaProps) => {
+const VillaCard: React.FC<Props> = ({ villa }: Props) => {
   const navigate = useNavigate();
   const { mutate } = useSellVilla();
 
@@ -38,14 +38,8 @@ const VillaCard: React.FC<Props> = (villaProps) => {
     villaBuyList,
   } = useStore();
 
-  const isVillaInWishList = isVillaInWishListHelper(
-    villaWishList,
-    villaProps.villa.id
-  );
-  const isVillaInBuyList = isVillaInBuyListHelper(
-    villaBuyList,
-    villaProps.villa.id
-  );
+  const isVillaInWishList = isVillaInWishListHelper(villaWishList, villa.id);
+  const isVillaInBuyList = isVillaInBuyListHelper(villaBuyList, villa.id);
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -62,10 +56,10 @@ const VillaCard: React.FC<Props> = (villaProps) => {
   };
 
   const buyVilla = () => {
-    if (villaProps.villa.isForSale) {
-      mutate(villaProps.villa.id, {
+    if (villa.isForSale) {
+      mutate(villa.id, {
         onSuccess: () => {
-          setVillaIsBoughtToTrue(villaProps.villa.id);
+          setVillaIsBoughtToTrue(villa.id);
           openNotification("Success", "The villa is bought", "topLeft");
         },
         onError: () => {
@@ -92,7 +86,7 @@ const VillaCard: React.FC<Props> = (villaProps) => {
             onClick={(e) => {
               e.stopPropagation();
               handleAddVillaToWishList({
-                villa: villaProps.villa,
+                villa: villa,
                 isInTheList: isVillaInWishList,
                 removeFromTheList: removeVillaFromWishList,
                 addToList: addVillaToWishList,
@@ -105,7 +99,7 @@ const VillaCard: React.FC<Props> = (villaProps) => {
             onClick={(e) => {
               e.stopPropagation();
               handleAddVillaToWishList({
-                villa: villaProps.villa,
+                villa: villa,
                 isInTheList: isVillaInWishList,
                 removeFromTheList: removeVillaFromWishList,
                 addToList: addVillaToWishList,
@@ -116,16 +110,14 @@ const VillaCard: React.FC<Props> = (villaProps) => {
         ),
         <strong
           style={{
-            color: villaProps.villa.isForSale
-              ? "rgba(0, 0, 0, 0.45)"
-              : "#1890ff",
+            color: villa.isForSale ? "rgba(0, 0, 0, 0.45)" : "#1890ff",
           }}
           onClick={(e) => {
             e.stopPropagation();
             buyVilla();
           }}
         >
-          {villaProps.villa.isForSale ? "BUY NOW" : "IS SOLD"}
+          {villa.isForSale ? "BUY NOW" : "IS SOLD"}
         </strong>,
 
         <ShoppingCartOutlined
@@ -135,7 +127,7 @@ const VillaCard: React.FC<Props> = (villaProps) => {
           onClick={(e) => {
             e.stopPropagation();
             handleAddVillaToCart({
-              villa: villaProps.villa,
+              villa: villa,
               isInTheList: isVillaInBuyList,
               removeFromTheList: removeVillaFromBuyList,
               addToList: addVillaToBuyList,
@@ -146,30 +138,14 @@ const VillaCard: React.FC<Props> = (villaProps) => {
       ]}
     >
       {contextHolder}
-      <Meta title={villaProps.villa.location} />
+      <Meta title={villa.location} />
       <div style={{ marginTop: 16 }}>
-        <p>
-          <strong>Price:</strong> {`${villaProps.villa.price}€`}
-        </p>
-        <p>
-          <strong>Size:</strong> {villaProps.villa.area} sqm
-        </p>
-        <p>
-          <strong>Location:</strong>{" "}
-          {`${villaProps.villa.locationType} ,${villaProps.villa.location} `}
-        </p>
-        <p>
-          <strong>Price:</strong> €{villaProps.villa.price}
-        </p>
-        <p>
-          <strong>Floors:</strong> {villaProps.villa.floors}
-        </p>
-        <p>
-          <strong>Rooms:</strong> {villaProps.villa.numOfRooms}
-        </p>
-        <p>
-          <strong>Bathrooms:</strong> {villaProps.villa.numOfBathrooms}
-        </p>
+        {cardDataProperty(villa).map((item) => (
+          <p>
+            <strong>{item.propertyName}</strong>
+            {item.propertyData}
+          </p>
+        ))}
       </div>
     </Card>
   );
