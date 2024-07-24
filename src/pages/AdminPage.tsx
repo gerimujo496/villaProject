@@ -1,14 +1,13 @@
-
-import VillaForm from '../components/VillaForm'
-import VillasTable from '../components/VillasTable'
+import VillaForm from "../components/CreateVillaForm";
+import VillasTable from "../components/VillasTable";
 
 const AdminPage = () => {
   return (
     <>
-   <VillaForm/>
-   <VillasTable/>
-   </>
-  )
-}
+      <VillaForm />
+      <VillasTable />
+    </>
+  );
+};
 
-export default AdminPage
+export default AdminPage;

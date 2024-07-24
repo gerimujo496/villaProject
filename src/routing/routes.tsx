@@ -3,7 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import VillaList from "../pages/VillaList";
 import VillaDetails from "../pages/VillaDetails";
 import PrivateRoutes from "../pages/PrivateRoutes";
-import VillasTable from "../components/VillasTable";
+
 import AdminPage from "../pages/AdminPage";
 
 const router = createBrowserRouter([
