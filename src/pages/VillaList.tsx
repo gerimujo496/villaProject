@@ -1,6 +1,6 @@
 import { Col, Row } from "antd";
 import VillaFilter from "../components/VillaFilter";
-import VillaCard from "../components/VillaCard";
+import VillaCard from "../components/VillaCard/VillaCard";
 import { useVillaFilter } from "../hooks/useVillaFilter";
 import { Filters } from "../types/filters";
 

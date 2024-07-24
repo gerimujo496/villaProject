@@ -7,8 +7,8 @@ import {
 import Meta from "antd/es/card/Meta";
 import { useNavigate } from "react-router-dom";
 
+
 function VillaDetails() {
-  
   const navigate = useNavigate();
   const handleAddVillaToWishList = () => {
     console.log("adding to wishlist");

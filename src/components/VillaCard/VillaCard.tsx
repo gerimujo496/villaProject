@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import Meta from "antd/es/card/Meta";
 import { useStore } from "../../store/store";
 import { Villa } from "../../types/villas";
-import React from "react";
 import { NotificationPlacement } from "antd/es/notification/interface";
 
 import {
@@ -24,7 +23,7 @@ interface Props {
   villa: Villa;
 }
 
-const VillaCard: React.FC<Props> = (villaProps) => {
+const VillaCard = ({villa}:Props) => {
   const navigate = useNavigate();
   const { mutate } = useSellVilla();
 
@@ -40,11 +39,11 @@ const VillaCard: React.FC<Props> = (villaProps) => {
 
   const isVillaInWishList = isVillaInWishListHelper(
     villaWishList,
-    villaProps.villa.id
+    villa.id
   );
   const isVillaInBuyList = isVillaInBuyListHelper(
     villaBuyList,
-    villaProps.villa.id
+    villa.id
   );
 
   const [api, contextHolder] = notification.useNotification();
@@ -62,10 +61,10 @@ const VillaCard: React.FC<Props> = (villaProps) => {
   };
 
   const buyVilla = () => {
-    if (villaProps.villa.isForSale) {
-      mutate(villaProps.villa.id, {
+    if (villa.isForSale) {
+      mutate(villa.id, {
         onSuccess: () => {
-          setVillaIsBoughtToTrue(villaProps.villa.id);
+          setVillaIsBoughtToTrue(villa.id);
           openNotification("Success", "The villa is bought", "topLeft");
         },
         onError: () => {
@@ -80,11 +79,11 @@ const VillaCard: React.FC<Props> = (villaProps) => {
       style={{ width: 300, cursor: "pointer" }}
       cover={
         <img
-          onClick={() => navigate(`/villas/id`)}
           alt="example"
           src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
         />
       }
+      onClick={() => navigate(`/villas/id`)}
       actions={[
         isVillaInWishList ? (
           <HeartFilled
@@ -92,7 +91,7 @@ const VillaCard: React.FC<Props> = (villaProps) => {
             onClick={(e) => {
               e.stopPropagation();
               handleAddVillaToWishList({
-                villa: villaProps.villa,
+                villa: villa,
                 isInTheList: isVillaInWishList,
                 removeFromTheList: removeVillaFromWishList,
                 addToList: addVillaToWishList,
@@ -105,7 +104,7 @@ const VillaCard: React.FC<Props> = (villaProps) => {
             onClick={(e) => {
               e.stopPropagation();
               handleAddVillaToWishList({
-                villa: villaProps.villa,
+                villa: villa,
                 isInTheList: isVillaInWishList,
                 removeFromTheList: removeVillaFromWishList,
                 addToList: addVillaToWishList,
@@ -116,7 +115,7 @@ const VillaCard: React.FC<Props> = (villaProps) => {
         ),
         <strong
           style={{
-            color: villaProps.villa.isForSale
+            color: villa.isForSale
               ? "rgba(0, 0, 0, 0.45)"
               : "#1890ff",
           }}
@@ -125,7 +124,7 @@ const VillaCard: React.FC<Props> = (villaProps) => {
             buyVilla();
           }}
         >
-          {villaProps.villa.isForSale ? "BUY NOW" : "IS SOLD"}
+          {villa.isForSale ? "BUY NOW" : "IS SOLD"}
         </strong>,
 
         <ShoppingCartOutlined
@@ -135,7 +134,7 @@ const VillaCard: React.FC<Props> = (villaProps) => {
           onClick={(e) => {
             e.stopPropagation();
             handleAddVillaToCart({
-              villa: villaProps.villa,
+              villa: villa,
               isInTheList: isVillaInBuyList,
               removeFromTheList: removeVillaFromBuyList,
               addToList: addVillaToBuyList,
@@ -146,29 +145,29 @@ const VillaCard: React.FC<Props> = (villaProps) => {
       ]}
     >
       {contextHolder}
-      <Meta title={villaProps.villa.location} />
+      <Meta title={villa.location} />
       <div style={{ marginTop: 16 }}>
         <p>
-          <strong>Price:</strong> {`${villaProps.villa.price}€`}
+          <strong>Price:</strong> {`${villa.price}€`}
         </p>
         <p>
-          <strong>Size:</strong> {villaProps.villa.area} sqm
+          <strong>Size:</strong> {villa.area} sqm
         </p>
         <p>
           <strong>Location:</strong>{" "}
-          {`${villaProps.villa.locationType} ,${villaProps.villa.location} `}
+          {`${villa.locationType} ,${villa.location} `}
         </p>
         <p>
-          <strong>Price:</strong> €{villaProps.villa.price}
+          <strong>Price:</strong> €{villa.price}
         </p>
         <p>
-          <strong>Floors:</strong> {villaProps.villa.floors}
+          <strong>Floors:</strong> {villa.floors}
         </p>
         <p>
-          <strong>Rooms:</strong> {villaProps.villa.numOfRooms}
+          <strong>Rooms:</strong> {villa.numOfRooms}
         </p>
         <p>
-          <strong>Bathrooms:</strong> {villaProps.villa.numOfBathrooms}
+          <strong>Bathrooms:</strong> {villa.numOfBathrooms}
         </p>
       </div>
     </Card>

@@ -1,5 +1,5 @@
 import { StateCreator } from "zustand";
-import { Filters } from "../types/filters";
+import { Filters } from "../../types/filters";
 
 export interface FilterSlice extends Filters {
   applyFilters: (filtersObject: Filters) => void;

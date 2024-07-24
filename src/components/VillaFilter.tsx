@@ -1,20 +1,22 @@
 import { Button, Form, Input, InputNumber, Select } from "antd";
 import { useStore } from "../store/store";
 import { Filters } from "../types/filters";
+import { getLocalStorageFilters } from "../utils/getLocalStorageFilters";
 
 interface Props {
-    onFilterChange: (filterValues:Filters) => void;
+  onFilterChange: (filterValues: Filters) => void;
 }
 
 const VillaFilter = ({ onFilterChange }: Props) => {
   const [form] = Form.useForm();
+  const localStorageFilters: Filters = getLocalStorageFilters();
 
   const { applyFilters } = useStore();
 
   const onFinish = (filterValuesObj: any) => {
     applyFilters(filterValuesObj);
     localStorage.setItem("filters", JSON.stringify(filterValuesObj));
-    onFilterChange(filterValuesObj); 
+    onFilterChange(filterValuesObj);
   };
 
   return (
@@ -22,6 +24,7 @@ const VillaFilter = ({ onFilterChange }: Props) => {
       layout="inline"
       form={form}
       onFinish={onFinish}
+      initialValues={localStorageFilters}
       style={{
         margin: "2rem",
         display: "flex",
@@ -49,11 +52,10 @@ const VillaFilter = ({ onFilterChange }: Props) => {
       <Form.Item name="price" label="Price">
         <Select style={{ minWidth: "12rem" }} placeholder="All">
           <Select.Option value="all">All</Select.Option>
-          <Select.Option value={30000}>€10.000 - €30.000</Select.Option>
-          <Select.Option value={90000}>€30.000 - €90.000</Select.Option>
-          <Select.Option value={150000}>€90.000 - €150.000</Select.Option>
-          <Select.Option value={170000}>€150.000+</Select.Option> // review this
-          later
+          <Select.Option value="10000-30000">€10.000 - €30.000</Select.Option>
+          <Select.Option value="30000-90000">€30.000 - €90.000</Select.Option>
+          <Select.Option value="90000-150000">€90.000 - €150.000</Select.Option>
+          <Select.Option value="150000+">€150.000+</Select.Option>
         </Select>
       </Form.Item>
       <Form.Item>

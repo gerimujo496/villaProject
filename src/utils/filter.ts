@@ -14,7 +14,10 @@ export const filterVillas = (villasArray: any, filters: any) => {
       : true;
     const matchesPrice =
       filters.price && filters.price !== "all"
-        ? villa.price <= filters.price
+        ? (filters.price === "10000-30000" && villa.price >= 10000 && villa.price <= 30000) ||
+          (filters.price === "30000-90000" && villa.price >= 30000 && villa.price <= 90000) ||
+          (filters.price === "90000-150000" && villa.price >= 90000 && villa.price <= 150000) ||
+          (filters.price === "150000+" && villa.price >= 150000)
         : true;
 
     return (
