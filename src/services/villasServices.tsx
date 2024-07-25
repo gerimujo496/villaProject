@@ -13,6 +13,9 @@ export const getVillas = async (): Promise<Villas[]> => {
   return Object.entries(data).map(([id, villa]) => ({ id, ...villa }));
 };
 
+export const sellVila = async (documentName: string) => {
+  apiClient.patch(`/villas/${documentName}.json`, { isForSale: false });
+};
 // export const addVilla = async (villa: Omit<Villas, 'id'>): Promise<Villas> => {
 
 //     const { data } = await apiClient.post('/villas.json', villa);
