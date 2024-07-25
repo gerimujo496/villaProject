@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { filterVillas } from "../utils/filter";
+// import { Villas } from "../types/types";
 
 export const useVillaFilter = (initialVillas: any[]) => {
   const [filteredVillas, setFilteredVillas] = useState<any[]>(initialVillas);
@@ -8,6 +9,7 @@ export const useVillaFilter = (initialVillas: any[]) => {
     const results = filterVillas(initialVillas, filters);
     setFilteredVillas(results);
   };
+
 
   useEffect(() => {
     const filters = localStorage.getItem("filters");

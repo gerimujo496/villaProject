@@ -1,62 +1,36 @@
+
 import { Col, Row } from "antd";
 import VillaFilter from "../components/VillaFilter";
 import VillaCard from "../components/VillaCard/VillaCard";
 import { useVillaFilter } from "../hooks/useVillaFilter";
 import { Filters } from "../types/filters";
 import { useVillasTable } from "../hooks/useVillaTable";
-
-const mockVillas = [
-  {
-    id: "121",
-    location: "Tirana",
-    floors: 2,
-    numOfBathrooms: 1,
-    locationType: "seaSide",
-    price: 30000,
-    numOfRooms: 5,
-    area: 300,
-  },
-  {
-    id: "1212",
-    location: "Saranda",
-    floors: 1,
-    bathrooms: 2,
-    locationType: "hill",
-    price: 90000,
-    numOfRooms: 5,
-    area: 300,
-  },
-  {
-    id: "1213",
-    location: "Durrës",
-    floors: 3,
-    bathrooms: 2,
-    locationType: "riverBank",
-    price: 150000,
-    numOfRooms: 5,
-    area: 300,
-  },
-  {
-    id: "1214",
-    location: "Durrës",
-    floors: 3,
-    bathrooms: 2,
-    locationType: "riverBank",
-    price: 160000,
-    numOfRooms: 5,
-    area: 300,
-  },
-];
+import { useEffect, useState } from "react";
 
 const VillaList = () => {
-  const { filteredVillas, displayFiltersResult } = useVillaFilter(mockVillas);
+  
+  const { data } = useVillasTable();
+  const [villasArray, setVillasArray] = useState<any>([]);
+  const { filteredVillas, displayFiltersResult } = useVillaFilter(villasArray);
+
+  useEffect(() => {
+    console.log("API DATA",data);
+    // if (data && data.length > 0) {
+    //   setVillasArray(data);
+    // }
+    if (Array.isArray(data)) {
+      setVillasArray(data);
+    } else {
+      console.error("Data is not an array:", data);
+    }
+  }, [data, setVillasArray])
 
   const handleFilterChange = (filterValues: Filters) => {
     displayFiltersResult(filterValues);
   };
-  const { data } = useVillasTable();
-  console.log(data);
 
+
+  console.log(villasArray, 'STATE')
   return (
     <>
       <VillaFilter onFilterChange={handleFilterChange} />
