@@ -3,6 +3,7 @@ import VillaFilter from "../components/VillaFilter";
 import VillaCard from "../components/VillaCard/VillaCard";
 import { useVillaFilter } from "../hooks/useVillaFilter";
 import { Filters } from "../types/filters";
+import { useVillasTable } from "../hooks/useVillaTable";
 
 const mockVillas = [
   {
@@ -44,7 +45,7 @@ const mockVillas = [
     price: 160000,
     numOfRooms: 5,
     area: 300,
-  }
+  },
 ];
 
 const VillaList = () => {
@@ -53,6 +54,8 @@ const VillaList = () => {
   const handleFilterChange = (filterValues: Filters) => {
     displayFiltersResult(filterValues);
   };
+  const { data } = useVillasTable();
+  console.log(data);
 
   return (
     <>

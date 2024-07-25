@@ -1,7 +1,14 @@
-const App = () => {
+import "./App.css";
+import VillaForm from "./components/VillaForm";
+import VillasTable from "./components/VillasTable";
+
+function App() {
   return (
-    <h1>App</h1>
+    <>
+      <VillasTable />
+      <VillaForm />
+    </>
   );
-};
+}
 
 export default App;

@@ -8,6 +8,8 @@ import { SignUp } from "../pages/Singup/Singup";
 import { WishList } from "../components/WishList/WishList";
 import { CartList } from "../components/CartList/CartList";
 
+import AdminPage from "../pages/AdminPage";
+
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -30,7 +32,8 @@ const router = createBrowserRouter([
           { path: "wishlist", element: <WishList /> },
           {
             path: "admin",
-            element: <h1>Hello from Admin</h1>,
+            element: <AdminPage/>,
+           
           },
           { path: "cartList", element: <CartList /> },
         ],
