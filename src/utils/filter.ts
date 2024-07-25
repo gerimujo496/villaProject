@@ -1,4 +1,4 @@
-import { Filters } from "../types/filters";
+import { Filters} from '../types/filters'
 import { Villa } from "../types/villas";
 
 export const filterVillas = (villasArray: Villa[], filters: Filters) => {
