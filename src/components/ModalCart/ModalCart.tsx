@@ -1,8 +1,12 @@
 import React from "react";
-import { Modal, Button } from "antd";
+import { Modal, Button, Empty, notification, Spin } from "antd";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { BuyListElement } from "../BuyListElement/BuyListElement";
 import styles from "./ModalCart.module.css";
+import { useStore } from "../../store/store";
+import { buyAllVillas, totalVillasPriceCalculator } from "./helper";
+import useSellVilla from "../../hooks/useSellVilla";
+import { NotificationPlacement } from "antd/es/notification/interface";
 
 interface Props {
   handleOk: () => void;
@@ -14,6 +18,21 @@ export const ModalCart: React.FC<Props> = ({
   handleCancel,
   isModalOpen,
 }) => {
+  const sellVilla = useSellVilla();
+  const { villaBuyList, removeVillaFromBuyList } = useStore();
+  const [api, contextHolder] = notification.useNotification();
+
+  const openNotification = (
+    message: string,
+    description: string,
+    placement: NotificationPlacement
+  ) => {
+    api.info({
+      message,
+      description,
+      placement,
+    });
+  };
   return (
     <Modal
       title="Cart List"
@@ -21,14 +40,40 @@ export const ModalCart: React.FC<Props> = ({
       onOk={handleOk}
       onCancel={handleCancel}
     >
-      <div  >
+      <div>
         <div>
-          <BuyListElement /> <BuyListElement /> <BuyListElement />
+          {villaBuyList.map((item) => (
+            <BuyListElement
+              id={item.id}
+              image={item.image}
+              location={item.location}
+              price={item.price}
+            />
+          ))}
         </div>
-        <div className={styles.footer}>
-          Total
-          <Button type="primary" icon={<ShoppingCartOutlined />} />
-        </div>
+        {villaBuyList.length > 0 ? (
+          <div className={styles.footer}>
+            {`Total Pirce: ${totalVillasPriceCalculator(villaBuyList)} €`}
+            {sellVilla.isPending ? (
+              <Spin />
+            ) : (
+              <Button
+                type="primary"
+                onClick={() =>
+                  buyAllVillas({
+                    data: villaBuyList,
+                    sellVilla,
+                    openNotification,
+                    removeVillaFromBuyList,
+                  })
+                }
+                icon={<ShoppingCartOutlined />}
+              />
+            )}
+          </div>
+        ) : (
+          <Empty />
+        )}
       </div>
     </Modal>
   );

@@ -1,27 +1,42 @@
 import { Col, Row } from "antd";
 import VillaFilter from "../components/VillaFilter";
 import VillaCard from "../components/VillaCard/VillaCard";
-import { useVillaFilter } from "../hooks/useVillaFilter";
-import { Filters } from "../types/filters";
 import { useVillasTable } from "../hooks/useVillaTable";
+import { filteredVillasFn } from "../utils/filter";
+import { useStore } from "../store/store";
+import { useEffect } from "react";
+import { getLocalStorageFilters } from "../utils/getLocalStorageFilters";
 
 const VillaList = () => {
   const { data } = useVillasTable();
-  console.log("data11", data);
-  const { filteredVillas, displayFiltersResult, results } =
-    useVillaFilter(data);
+  const { location, locationType, floors, bathrooms, price, applyFilters } =
+    useStore();
 
-  console.log(filteredVillas, "FILTERED");
-  const handleFilterChange = (filterValues: Filters) => {
-    displayFiltersResult(filterValues);
+  const fetchFiltersFromLocalStorage = () => {
+    const localStorageFilters = getLocalStorageFilters();
+    applyFilters(localStorageFilters);
   };
+
+  useEffect(() => {
+    fetchFiltersFromLocalStorage();
+  }, []);
+
+  const filters = {
+    location,
+    locationType,
+    floors,
+    bathrooms,
+    price,
+  };
+
+  const filteredVillasArray = filteredVillasFn(data, filters);
 
   return (
     <>
-      <VillaFilter onFilterChange={handleFilterChange} />
+      <VillaFilter />
       <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-        {data?.length || 0 > 0 ? (
-          data?.map((villa) => (
+        {filteredVillasArray ? (
+          filteredVillasArray?.map((villa) => (
             <Col key={villa.id} className="gutter-row" span={6}>
               <VillaCard key={villa.id} villa={villa} />
             </Col>

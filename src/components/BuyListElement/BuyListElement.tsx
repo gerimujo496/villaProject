@@ -1,17 +1,22 @@
 import { CloseOutlined } from "@ant-design/icons";
 import styles from "./BuyListElement.module.css";
+import { useStore } from "../../store/store";
 
-export const BuyListElement = () => {
+interface Props {
+  image: string;
+  location: string;
+  price: number;
+  id:string
+}
+export const BuyListElement: React.FC<Props> = ({ image, location, price, id }) => {
+    const{removeVillaFromBuyList}=useStore();
   return (
     <div className={styles.buyListElementContainer}>
-      <img
-        className={styles.imageBuyListElement}
-        src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-      ></img>
-      <p>Emri i viles</p>
-      <p>Cmimi</p>
+      <img className={styles.imageBuyListElement} src={image}></img>
+      <p>{location}</p>
+      <p>{`${price} €`}</p>
 
-      <CloseOutlined className={styles.remove} />
+      <CloseOutlined onClick={()=>removeVillaFromBuyList(id)} className={styles.remove} />
     </div>
   );
 };

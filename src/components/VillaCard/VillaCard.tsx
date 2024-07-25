@@ -7,11 +7,11 @@ import {
 import { useNavigate } from "react-router-dom";
 import Meta from "antd/es/card/Meta";
 import { useStore } from "../../store/store";
-import { Villa } from "../../types/villas";
+import { Villa } from "../../types/villa";
 import { NotificationPlacement } from "antd/es/notification/interface";
 
 import {
-  cardDataProperty,
+  formatVillaCardProperties,
   handleAddVillaToCart,
   handleAddVillaToWishList,
   isVillaInBuyListHelper,
@@ -26,7 +26,7 @@ interface Props {
 const VillaCard = ({ villa }: Props) => {
   const navigate = useNavigate();
   const { mutate } = useSellVilla();
-
+console.log(villa.image)
   const {
     addVillaToBuyList,
     addVillaToWishList,
@@ -78,7 +78,7 @@ const VillaCard = ({ villa }: Props) => {
         cover={
           <img
             alt="example"
-            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+            src={villa.image}
           />
         }
         onClick={() => navigate(`/villas/id`)}
@@ -147,7 +147,7 @@ const VillaCard = ({ villa }: Props) => {
         {contextHolder}
         <Meta title={villa.location} />
         <div style={{ marginTop: 16 }}>
-          {cardDataProperty(villa).map((item) => (
+          {formatVillaCardProperties(villa).map((item) => (
             <p key={item.propertyName}>
               <strong>{item.propertyName}</strong>
               {` ${item.propertyData}`}

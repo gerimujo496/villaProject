@@ -13,7 +13,7 @@ import { BuyListElement } from "./BuyListElement/BuyListElement";
 import { ModalCart } from "./ModalCart/ModalCart";
 
 type MenuItem = Required<MenuProps>["items"][number];
-console.log(isAdminAuthenticated());
+
 
 const NavBar = () => {
   const [current, setCurrent] = useState("/");

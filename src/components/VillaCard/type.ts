@@ -1,4 +1,4 @@
-import { Villa } from "../../types/villas";
+import { Villa } from "../../types/villa";
 
 export interface FunctionPropsHandleWishAndBuy {
   villa: Villa;

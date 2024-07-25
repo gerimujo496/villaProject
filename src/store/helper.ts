@@ -1,4 +1,4 @@
-import { Villa } from "../types/villas";
+import { Villa } from "../types/villa";
 import { ZustandStore } from "../types/zustandStore";
 
 export const returnVillaWishList = (): Villa[] => {
