@@ -4,10 +4,11 @@ import VillasTable from "../components/VillasTable";
 const AdminPage = () => {
   return (
     <>
-      <VillaForm />
+      <VillaForm  />
       <VillasTable />
     </>
   );
 };
 
 export default AdminPage;
+
