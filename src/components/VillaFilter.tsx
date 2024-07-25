@@ -3,11 +3,7 @@ import { useStore } from "../store/store";
 import { Filters } from "../types/filters";
 import { getLocalStorageFilters } from "../utils/getLocalStorageFilters";
 
-interface Props {
-  onFilterChange: (filterValues: Filters) => void;
-}
-
-const VillaFilter = ({ onFilterChange }: Props) => {
+const VillaFilter = () => {
   const [form] = Form.useForm();
   const localStorageFilters: Filters = getLocalStorageFilters();
 
@@ -16,7 +12,6 @@ const VillaFilter = ({ onFilterChange }: Props) => {
   const onFinish = (filterValuesObj: any) => {
     applyFilters(filterValuesObj);
     localStorage.setItem("filters", JSON.stringify(filterValuesObj));
-    onFilterChange(filterValuesObj);
   };
 
   return (

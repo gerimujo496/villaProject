@@ -1,5 +1,5 @@
 import { FilterSlice } from "../store/slices/filterSlice";
-import { Villa } from "./villas";
+import { Villa } from "./villa";
 
 export interface ZustandStore extends FilterSlice {
     villaWishList: Villa[];

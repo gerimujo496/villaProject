@@ -11,7 +11,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { isAdminAuthenticated } from "../utils/auth";
 
 type MenuItem = Required<MenuProps>["items"][number];
-console.log(isAdminAuthenticated());
 const items: MenuItem[] = [
   {
     label: <Link to="/">Home</Link>,
