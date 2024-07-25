@@ -1,6 +1,6 @@
 import "./App.css";
 import VillaForm from "./components/VillaForm";
-import VillasTable from "./components/VillasTable";
+import VillasTable from "./components/Admin/VillasTable";
 
 function App() {
   return (

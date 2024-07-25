@@ -6,10 +6,11 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Menu } from "antd";
+import { Flex, Grid, Layout, Menu } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { isAdminAuthenticated } from "../utils/auth";
-
+import logo from "../assets/logo.jpg";
+import { Header } from "antd/es/layout/layout";
 type MenuItem = Required<MenuProps>["items"][number];
 console.log(isAdminAuthenticated());
 const items: MenuItem[] = [
@@ -27,6 +28,9 @@ const items: MenuItem[] = [
     key: "cart",
     icon: <ShoppingCartOutlined />,
   },
+  
+
+
   ...(isAdminAuthenticated()
     ? [
         {
@@ -61,12 +65,26 @@ const NavBar = () => {
   };
 
   return (
+   
+    
+      <>
+     <Flex style={{ display: 'flex', alignItems: 'center',  }}>
+     <Link to="/">
+        <img src={logo} alt="Logo" style={{ width: "90px", marginRight: "16px" }} />
+      </Link>
+      
     <Menu
       onClick={handleNavItemClick}
       selectedKeys={[current]}
       mode="horizontal"
       items={items}
+        
     />
+    </Flex>
+    
+      
+     </>
+   
   );
 };
 

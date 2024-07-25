@@ -1,8 +1,8 @@
 
 import { Form, Input, Button, Select, InputNumber, Modal, Upload, UploadFile, Flex} from 'antd';
-import { LocationType } from '../types/types';
-import useCreateVillaForm from '../hooks/useCreateVillaForm';
-import { useVillaEditor } from '../hooks/useEditVilla';
+import { LocationType } from '../../types/locationType';
+import useCreateVillaForm from '../../hooks/useCreateVillaForm';
+import useVillaEditor from '../../hooks/useEditVilla';
 import { useState } from 'react';
 import React from 'react';
 
@@ -21,10 +21,14 @@ export const VillaForm: React.FC = () => {
   
 
   const [uploadFileList, setUploadFileList] = useState<UploadFile[]>();
-  const [form] = Form.useForm();
+  // const [form] = Form.useForm();
+  const [editForm]=Form.useForm()
+  const [createForm] = Form.useForm();
   const createVillaForm = useCreateVillaForm();
-  const editVillaForm = useVillaEditor(form);
+  const editVillaForm = useVillaEditor(editForm);
   const [isEdit, setIsEdit] = useState(false);
+
+  
 
   const showModal = (edit = false, villa?: any) => {
     setIsEdit(edit);
@@ -36,8 +40,11 @@ export const VillaForm: React.FC = () => {
   };
 
   const handleCancel = () => {
-    createVillaForm.handleCancel();
-    editVillaForm.handleCancel();
+    if (isEdit) {
+      editVillaForm.handleCancel();
+    } else {
+      createVillaForm.handleCancel();
+    }
   };
 
   const onFinish = async (values: any) => {
@@ -64,7 +71,7 @@ export const VillaForm: React.FC = () => {
         onCancel={handleCancel}
         footer={null}
       >
-        <Form form={form}  onFinish={onFinish} layout={ 'vertical' }>
+        <Form form={isEdit ? editForm : createForm} onFinish={onFinish} layout={ 'vertical' }>
        
           <Form.Item
             label="Location"

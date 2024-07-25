@@ -6,11 +6,11 @@ import { addVilla } from "../services/villasServices";
 import { Villas } from "../types/types";
 import { uploadImageToFirebase } from "../services/imageUpload";
 
-export const useCreateVillaForm = () => {
+export const  useCreateVillaForm = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
   const queryClient = useQueryClient();
-
+  console.log('Create Form instance:', form);
    const mutation = useMutation({
     mutationFn: addVilla,
     onSuccess: () => {
