@@ -4,15 +4,17 @@ import { ShoppingCartOutlined } from "@ant-design/icons";
 import { BuyListElement } from "../BuyListElement/BuyListElement";
 import styles from "./ModalCart.module.css";
 import { useStore } from "../../store/store";
-import { buyAllVillas, totalVillasPriceCalculator } from "./helper";
+import {   buyAllVillas, totalVillasPriceCalculator } from "./helper";
 import useSellVilla from "../../hooks/useSellVilla";
 import { NotificationPlacement } from "antd/es/notification/interface";
+
 
 interface Props {
   handleOk: () => void;
   handleCancel: () => void;
   isModalOpen: boolean;
 }
+
 export const ModalCart: React.FC<Props> = ({
   handleOk,
   handleCancel,
@@ -33,6 +35,9 @@ export const ModalCart: React.FC<Props> = ({
       placement,
     });
   };
+
+
+
   return (
     <Modal
       title="Cart List"
@@ -40,10 +45,12 @@ export const ModalCart: React.FC<Props> = ({
       onOk={handleOk}
       onCancel={handleCancel}
     >
+      {contextHolder}
       <div>
-        <div>
+        <div> 
           {villaBuyList.map((item) => (
             <BuyListElement
+              key={item.id} // Ensure each child in a list has a unique "key" prop
               id={item.id}
               image={item.image}
               location={item.location}
@@ -53,7 +60,7 @@ export const ModalCart: React.FC<Props> = ({
         </div>
         {villaBuyList.length > 0 ? (
           <div className={styles.footer}>
-            {`Total Pirce: ${totalVillasPriceCalculator(villaBuyList)} €`}
+            {`Total Price: ${totalVillasPriceCalculator(villaBuyList)} €`}
             {sellVilla.isPending ? (
               <Spin />
             ) : (
@@ -68,7 +75,9 @@ export const ModalCart: React.FC<Props> = ({
                   })
                 }
                 icon={<ShoppingCartOutlined />}
-              />
+              >
+                Buy All
+              </Button>
             )}
           </div>
         ) : (

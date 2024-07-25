@@ -86,13 +86,13 @@ export const removeVillaFromBuyList = (set: any) => (id: string) => {
     const newVilaBuyList = villaBuyListFromLocalStorageInArray.filter(
       (item) => item.id != id
     );
-    localStorage.setItem("vilaWishList", JSON.stringify(newVilaBuyList));
+    localStorage.setItem("vilaBuyList", JSON.stringify(newVilaBuyList));
   }
+
   set((store: ZustandStore) => ({
     villaBuyList: [...store.villaBuyList.filter((item) => item.id != id)],
   }));
 };
-
 
 export const setVillaIsBoughtToTrue = (set: any) => (id: string) => {
   set((store: ZustandStore) => ({

@@ -26,7 +26,7 @@ interface Props {
 const VillaCard = ({ villa }: Props) => {
   const navigate = useNavigate();
   const { mutate } = useSellVilla();
-console.log(villa.image)
+
   const {
     addVillaToBuyList,
     addVillaToWishList,
@@ -56,7 +56,7 @@ console.log(villa.image)
 
   const buyVilla = () => {
     if (villa.isForSale) {
-      mutate(villa.id, {
+       mutate(villa.id, {
         onSuccess: () => {
           setVillaIsBoughtToTrue(villa.id);
           openNotification("Success", "The villa is bought", "topLeft");
