@@ -1,4 +1,4 @@
-import { Card, notification } from "antd";
+import { Card, notification, Badge } from "antd";
 import {
   ShoppingCartOutlined,
   HeartOutlined,
@@ -69,84 +69,93 @@ const VillaCard = ({ villa }: Props) => {
   };
 
   return (
-    <Card
-      style={{ width: 300, cursor: "pointer" }}
-      cover={
-        <img
-          alt="example"
-          src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-        />
-      }
-      onClick={() => navigate(`/villas/id`)}
-      actions={[
-        isVillaInWishList ? (
-          <HeartFilled
-            style={{ color: "#1890ff" }}
-            onClick={(e) => {
-              e.stopPropagation();
-              handleAddVillaToWishList({
-                villa: villa,
-                isInTheList: isVillaInWishList,
-                removeFromTheList: removeVillaFromWishList,
-                addToList: addVillaToWishList,
-              });
-            }}
-            key="like"
-          />
-        ) : (
-          <HeartOutlined
-            onClick={(e) => {
-              e.stopPropagation();
-              handleAddVillaToWishList({
-                villa: villa,
-                isInTheList: isVillaInWishList,
-                removeFromTheList: removeVillaFromWishList,
-                addToList: addVillaToWishList,
-              });
-            }}
-            key="like"
-          />
-        ),
-        <strong
-          style={{
-            color: villa.isForSale ? "rgba(0, 0, 0, 0.45)" : "#1890ff",
-          }}
-          onClick={(e) => {
-            e.stopPropagation();
-            buyVilla();
-          }}
-        >
-          {villa.isForSale ? "BUY NOW" : "IS SOLD"}
-        </strong>,
-
-        <ShoppingCartOutlined
-          style={{
-            color: isVillaInBuyList ? "#1890ff" : "rgba(0, 0, 0, 0.45)",
-          }}
-          onClick={(e) => {
-            e.stopPropagation();
-            handleAddVillaToCart({
-              villa: villa,
-              isInTheList: isVillaInBuyList,
-              removeFromTheList: removeVillaFromBuyList,
-              addToList: addVillaToBuyList,
-            });
-          }}
-          key="cart"
-        />,
-      ]}
+    <Badge.Ribbon
+      style={{ display: villa.isForSale ? "none" : "block" }}
+      text="IS SOLD"
     >
-      {contextHolder}
-      <Meta title={villa.location} />
-      <div style={{ marginTop: 16 }}>
-        {cardDataProperty(villa).map((item) => (
-          <p key={item.propertyName}>
-            <strong>{item.propertyName}</strong>
-            {` ${item.propertyData}`}
-          </p>
-        ))}
-      </div>
-    </Card>
+      <Card
+        style={{ width: 300, cursor: "pointer" }}
+        cover={
+          <img
+            alt="example"
+            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+          />
+        }
+        onClick={() => navigate(`/villas/id`)}
+        actions={[
+          isVillaInWishList ? (
+            <HeartFilled
+              style={{ color: "#1890ff" }}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleAddVillaToWishList({
+                  villa: villa,
+                  isInTheList: isVillaInWishList,
+                  removeFromTheList: removeVillaFromWishList,
+                  addToList: addVillaToWishList,
+                });
+              }}
+              key="like"
+            />
+          ) : (
+            <HeartOutlined
+              onClick={(e) => {
+                e.stopPropagation();
+                handleAddVillaToWishList({
+                  villa: villa,
+                  isInTheList: isVillaInWishList,
+                  removeFromTheList: removeVillaFromWishList,
+                  addToList: addVillaToWishList,
+                });
+              }}
+              key="like"
+            />
+          ),
+          <strong
+            style={{
+              opacity: villa.isForSale ? "1" : "0.3",
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              buyVilla();
+            }}
+          >
+            BUY NOW
+          </strong>,
+
+          <ShoppingCartOutlined
+            style={{
+              color: isVillaInBuyList ? "#1890ff" : "rgba(0, 0, 0, 0.45)",
+              opacity: villa.isForSale ? "1" : "0.3",
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              if(villa.isForSale){
+                handleAddVillaToCart({
+                  villa: villa,
+                  isInTheList: isVillaInBuyList,
+                  removeFromTheList: removeVillaFromBuyList,
+                  addToList: addVillaToBuyList,
+                });
+              }
+             
+            }}
+            key="cart"
+          />,
+        ]}
+      >
+        {contextHolder}
+        <Meta title={villa.location} />
+        <div style={{ marginTop: 16 }}>
+          {cardDataProperty(villa).map((item) => (
+            <p key={item.propertyName}>
+              <strong>{item.propertyName}</strong>
+              {` ${item.propertyData}`}
+            </p>
+          ))}
+        </div>
+      </Card>
+    </Badge.Ribbon>
   );
 };
 

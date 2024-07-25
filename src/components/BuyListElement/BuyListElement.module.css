@@ -1,0 +1,13 @@
+.imageBuyListElement{
+    width: 30%;
+}
+.buyListElementContainer{
+    display: flex;
+    flex-direction: row;
+   justify-content: space-between;
+   align-items: center;
+   margin:20px;
+}
+.remove{
+    cursor: pointer;
+}

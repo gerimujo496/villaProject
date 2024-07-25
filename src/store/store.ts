@@ -5,22 +5,24 @@ import {
   addVillaToWishList,
   removeVillaFromBuyList,
   removeVillaFromWishList,
+  returnVillaBuyList,
+  returnVillaWishList,
   setVillaIsBoughtToTrue,
-  setVillaOpenDetails,
+  
 } from "./helper";
 import { ZustandStore } from "../types/zustandStore";
 import { createFilterSlice } from "./slices/filterSlice";
 
 
 export const useStore = create<ZustandStore>((set, get, state) => ({
-    villaWishList: [],
+    villaWishList: returnVillaWishList(),
     addVillaToWishList: addVillaToWishList(set),
     removeVillaFromWishList: removeVillaFromWishList(set),
-    villaBuyList: [],
-    villaOpenDetails: {},
+    villaBuyList: returnVillaBuyList(),
+    
     addVillaToBuyList: addVillaToBuyList(set),
     removeVillaFromBuyList: removeVillaFromBuyList(set),
-    setVillaOpenDetails: setVillaOpenDetails(set),
+   
     setVillaIsBoughtToTrue: setVillaIsBoughtToTrue(set),
     ...createFilterSlice(set, get, state)
   }));

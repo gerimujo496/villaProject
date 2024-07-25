@@ -1,7 +1,4 @@
-
-
-import { SignIn } from "../../pages/SingIn/SingIn";
-
+import { SignIn } from "../../pages/SignIn/SignIn";
 
 export const Main = () => {
   return <SignIn />;

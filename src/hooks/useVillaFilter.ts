@@ -2,14 +2,23 @@ import { useEffect, useState } from "react";
 import { filterVillas } from "../utils/filter";
 // import { Villas } from "../types/types";
 
-export const useVillaFilter = (initialVillas: any[]) => {
-  const [filteredVillas, setFilteredVillas] = useState<any[]>(initialVillas);
+export const useVillaFilter = (initialVillas: any[] | undefined) => {
+  const [filteredVillas, setFilteredVillas] = useState<any[] | undefined>(
+    initialVillas
+  );
 
   const displayFiltersResult = (filters: any) => {
-    const results = filterVillas(initialVillas, filters);
+    console.log(JSON.stringify(initialVillas), "INITIAL");
+    if (!initialVillas) {
+      return;
+    }
     setFilteredVillas(results);
   };
-
+  const filters = localStorage.getItem("filters");
+  const results =
+    initialVillas?.length && filters
+      ? filterVillas(initialVillas, JSON.parse(filters))
+      : [];
 
   useEffect(() => {
     const filters = localStorage.getItem("filters");
@@ -22,5 +31,5 @@ export const useVillaFilter = (initialVillas: any[]) => {
     }
   }, []);
 
-  return { displayFiltersResult, filteredVillas };
+  return { displayFiltersResult, filteredVillas, results };
 };

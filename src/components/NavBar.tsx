@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   HomeOutlined,
   ShoppingCartOutlined,
@@ -6,67 +6,78 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Menu } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { Button, Menu, Modal } from "antd";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { isAdminAuthenticated } from "../utils/auth";
+import { BuyListElement } from "./BuyListElement/BuyListElement";
+import { ModalCart } from "./ModalCart/ModalCart";
 
 type MenuItem = Required<MenuProps>["items"][number];
 console.log(isAdminAuthenticated());
-const items: MenuItem[] = [
-  {
-    label: <Link to="/">Home</Link>,
-    key: "home",
-    icon: <HomeOutlined />,
-  },
-  {
-    key: "wishlist",
-    label: <Link to="/wishlist">Wishlist</Link>,
-  },
-  {
-    label: <Link to="/cartList" />,
-    key: "cart",
-    icon: <ShoppingCartOutlined />,
-  },
-  ...(isAdminAuthenticated()
-    ? [
-        {
-          label: <Link to="/admin">Admin</Link>,
-          key: "admin",
-          icon: <UserOutlined />,
-        },
-      ]
-    : []),
-  {
-    label: "Logout",
-    key: "logout",
-    icon: <LogoutOutlined />,
-  },
-];
 
 const NavBar = () => {
-  const [current, setCurrent] = useState("home");
-
+  const [current, setCurrent] = useState("/");
   const navigate = useNavigate();
-  const handleNavItemClick: MenuProps["onClick"] = (e) => {
-    setCurrent(e.key);
+  const { pathname } = useLocation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-    if (e.key === "cart") {
-      // Show Cart Componenet
-    }
-    if (e.key === "logout") {
-      localStorage.removeItem("token");
-      navigate("/login");
-      // Logout user
-    }
+  const showModal = () => {
+    setIsModalOpen(true);
   };
 
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  const items: MenuItem[] = [
+    {
+      label: <Link to="/">Home</Link>,
+      key: "/",
+      icon: <HomeOutlined />,
+    },
+    {
+      key: "/wishlist",
+      label: <Link to="/wishlist">Wishlist</Link>,
+    },
+    {
+      label: <span onClick={showModal}>Cart List</span>,
+      key: "/cartList",
+      icon: <ShoppingCartOutlined onClick={showModal} />,
+    },
+    ...(isAdminAuthenticated()
+      ? [
+          {
+            label: <Link to="/admin">Admin</Link>,
+            key: "/admin",
+            icon: <UserOutlined />,
+          },
+        ]
+      : []),
+    {
+      label: "Logout",
+      key: "logout",
+      icon: (
+        <LogoutOutlined
+          onClick={() => {
+            localStorage.removeItem("token");
+            navigate("/login");
+          }}
+        />
+      ),
+    },
+  ];
+  useEffect(() => {
+    setCurrent(pathname);
+  }, [pathname]);
+
   return (
-    <Menu
-      onClick={handleNavItemClick}
-      selectedKeys={[current]}
-      mode="horizontal"
-      items={items}
-    />
+    <div>
+     <ModalCart  isModalOpen={isModalOpen} handleCancel={handleCancel} handleOk={handleOk}  />
+      <Menu selectedKeys={[current]} mode="horizontal" items={items} />
+    </div>
   );
 };
 
