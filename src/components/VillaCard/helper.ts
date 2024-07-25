@@ -1,4 +1,4 @@
-import { Villa } from "../../types/villas";
+import { Villa } from "../../types/villa";
 import { FunctionPropsHandleWishAndBuy } from "./type";
 
 export const isVillaInWishListHelper = (
@@ -33,13 +33,13 @@ export const handleAddVillaToCart = (args: FunctionPropsHandleWishAndBuy) => {
   args.addToList(args.villa);
 };
 
-export const cardDataProperty = (villa: Villa) => {
+export const formatVillaCardProperties = (villa: Villa) => {
   return [
     { propertyName: "Price", propertyData: `${villa.price} €` },
-    { propertyName: "Area", propertyData: `${villa.area} sqm` },
+    { propertyName: "Area", propertyData: `${villa.area} m²` },
     { propertyName: "Location", propertyData: `${villa.locationType} ,${villa.location} ` },
     { propertyName: "Floors", propertyData: villa.floors },
-    { propertyName: "Rooms", propertyData: villa.numOfRooms },
-    { propertyName: "Bathrooms", propertyData: villa.numOfBathrooms },
+    { propertyName: "Rooms", propertyData: villa.rooms },
+    { propertyName: "Bathrooms", propertyData: villa.bathrooms },
   ];
 };

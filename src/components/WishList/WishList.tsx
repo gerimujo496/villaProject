@@ -8,7 +8,7 @@ export const WishList = () => {
   return (
     <div className={styles.wishListContainer}>
       {villaWishList.map((item) => (
-        <VillaCard villa={item} />
+        <VillaCard key={item.id} villa={item} />
       ))}
     </div>
   );

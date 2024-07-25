@@ -1,6 +1,7 @@
-import { Villa } from "./villas";
+import { FilterSlice } from "../store/slices/filterSlice";
+import { Villa } from "./villa";
 
-export interface ZustandStore {
+export interface ZustandStore extends FilterSlice {
     villaWishList: Villa[];
     villaBuyList: Villa[];
     villaOpenDetails: Villa | {};
@@ -10,4 +11,4 @@ export interface ZustandStore {
     removeVillaFromBuyList: (id: string) => void;
     setVillaOpenDetails: (villa: Villa) => void;
     setVillaIsBoughtToTrue: (id: string) => void;
-  }
+}

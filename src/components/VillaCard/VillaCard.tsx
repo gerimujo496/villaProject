@@ -7,12 +7,11 @@ import {
 import { useNavigate } from "react-router-dom";
 import Meta from "antd/es/card/Meta";
 import { useStore } from "../../store/store";
-import { Villa } from "../../types/villas";
-import React from "react";
+import { Villa } from "../../types/villa";
 import { NotificationPlacement } from "antd/es/notification/interface";
 
 import {
-  cardDataProperty,
+  formatVillaCardProperties,
   handleAddVillaToCart,
   handleAddVillaToWishList,
   isVillaInBuyListHelper,
@@ -24,7 +23,7 @@ interface Props {
   villa: Villa;
 }
 
-const VillaCard: React.FC<Props> = ({ villa }: Props) => {
+const VillaCard = ({ villa }: Props) => {
   const navigate = useNavigate();
   const { mutate } = useSellVilla();
 
@@ -74,11 +73,11 @@ const VillaCard: React.FC<Props> = ({ villa }: Props) => {
       style={{ width: 300, cursor: "pointer" }}
       cover={
         <img
-          onClick={() => navigate(`/villas/id`)}
           alt="example"
           src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
         />
       }
+      onClick={() => navigate(`/villas/id`)}
       actions={[
         isVillaInWishList ? (
           <HeartFilled
@@ -140,10 +139,10 @@ const VillaCard: React.FC<Props> = ({ villa }: Props) => {
       {contextHolder}
       <Meta title={villa.location} />
       <div style={{ marginTop: 16 }}>
-        {cardDataProperty(villa).map((item) => (
-          <p>
+        {formatVillaCardProperties(villa).map((item) => (
+          <p key={item.propertyName}>
             <strong>{item.propertyName}</strong>
-            {item.propertyData}
+            {` ${item.propertyData}`}
           </p>
         ))}
       </div>
