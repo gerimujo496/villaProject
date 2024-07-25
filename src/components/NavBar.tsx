@@ -10,42 +10,12 @@ import { Menu } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { isAdminAuthenticated } from "../utils/auth";
 
-type MenuItem = Required<MenuProps>["items"][number];
 
-const items: MenuItem[] = [
-  {
-    label: <Link to="/">Home</Link>,
-    key: "home",
-    icon: <HomeOutlined />,
-  },
-  {
-    key: "wishlist",
-    label: <Link to="/wishlist">Wishlist</Link>,
-  },
-  {
-    label: <Link to="/cartList" />,
-    key: "cart",
-    icon: <ShoppingCartOutlined />,
-  },
-  ...(isAdminAuthenticated()
-    ? [
-        {
-          label: <Link to="/admin">Admin</Link>,
-          key: "admin",
-          icon: <UserOutlined />,
-        },
-      ]
-    : []),
-  {
-    label: "Logout",
-    key: "logout",
-    icon: <LogoutOutlined />,
-  },
-];
+export type MenuItem = Required<MenuProps>["items"][number];
 
 const NavBar = () => {
   const [current, setCurrent] = useState("home");
-
+  console.log(isAdminAuthenticated());
   const navigate = useNavigate();
   const handleNavItemClick: MenuProps["onClick"] = (e) => {
     setCurrent(e.key);
@@ -59,7 +29,36 @@ const NavBar = () => {
       // Logout user
     }
   };
-
+  const items: MenuItem[] = [
+    {
+      label: <Link to="/">Home</Link>,
+      key: "home",
+      icon: <HomeOutlined />,
+    },
+    {
+      key: "wishlist",
+      label: <Link to="/wishlist">Wishlist</Link>,
+    },
+    {
+      label: <Link to="/cartList" />,
+      key: "cart",
+      icon: <ShoppingCartOutlined />,
+    },
+    ...(isAdminAuthenticated()
+      ? [
+          {
+            label: <Link to="/admin">Admin</Link>,
+            key: "admin",
+            icon: <UserOutlined />,
+          },
+        ]
+      : []),
+    {
+      label: "Logout",
+      key: "logout",
+      icon: <LogoutOutlined />,
+    },
+  ];
   return (
     <Menu
       onClick={handleNavItemClick}
