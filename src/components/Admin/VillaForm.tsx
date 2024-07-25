@@ -1,10 +1,13 @@
 
-import { Form, Input, Button, Select, InputNumber, Modal, Upload, UploadFile, Flex} from 'antd';
+import { Form, Input, Button, Select, InputNumber, Modal, Upload, UploadFile, Flex } from 'antd';
 import { LocationType } from '../../types/locationType';
 import useCreateVillaForm from '../../hooks/useCreateVillaForm';
 import useVillaEditor from '../../hooks/useEditVilla';
 import { useState } from 'react';
 import React from 'react';
+import { Villa } from '../../types/villas';
+import { Villas } from '../../types/types';
+import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 
 const { Option } = Select;
 const justifyOptions = [
@@ -17,18 +20,58 @@ const justifyOptions = [
 ];
 const alignOptions = ['flex-start', 'center', 'flex-end'];
 
-export const VillaForm: React.FC = () => {
-  
+interface VillaFormProps {
+  villa?: Villas | null;
+  isModalOpen: boolean;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedVilla: any;
+}
+
+type Inputs = {
+  location: string
+  area: number
+}
+
+export const VillaForm: React.FC<VillaFormProps> = ({ villa, isModalOpen, setIsModalOpen, setSelectedVilla }) => {
+
+
+  //const {createMutation, updateMutation, uploadImage} = useVillaMutations();
+
+  //add other default values
+  const defaultValues = {
+    location: villa?.location || "",
+    area: villa?.area || 0
+  };
+
+
+  //create a hook: 2 useMutations: Edit Villa, Create Villa
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+
+    if (isEditing) {
+      //call mutate edit, data:
+
+
+      return;
+    }
+
+    //upload image  await uploadImage
+
+    //change data => data.imageUrl = url + key;
+
+    //mutate Create
+
+  }
+
+  const isEditing = !!villa;
 
   const [uploadFileList, setUploadFileList] = useState<UploadFile[]>();
   // const [form] = Form.useForm();
-  const [editForm]=Form.useForm()
-  const [createForm] = Form.useForm();
+  const [editForm] = Form.useForm()
   const createVillaForm = useCreateVillaForm();
   const editVillaForm = useVillaEditor(editForm);
   const [isEdit, setIsEdit] = useState(false);
 
-  
 
   const showModal = (edit = false, villa?: any) => {
     setIsEdit(edit);
@@ -40,130 +83,94 @@ export const VillaForm: React.FC = () => {
   };
 
   const handleCancel = () => {
-    if (isEdit) {
-      editVillaForm.handleCancel();
-    } else {
-      createVillaForm.handleCancel();
-    }
+    setIsModalOpen(false);
+    setTimeout(() => {
+      setSelectedVilla(null)
+
+    }, 1000)
   };
 
   const onFinish = async (values: any) => {
-    if (isEdit) {
-      await editVillaForm.handleModalOk();
-    } else {
-      await createVillaForm.onFinish(values);
-    }
+
+    console.log(values);
+    setSelectedVilla(null);
+
+    // if (isEdit) {
+    //   await editVillaForm.handleModalOk();
+    // } else {
+    //   await createVillaForm.onFinish(values);
+    // }
   };
- 
+
+  const { handleSubmit, control, formState: { errors } } = useForm<Inputs>({
+    defaultValues,
+  });
+
   return (
     <>
-    
-    <Flex  justify={justifyOptions[2]} align={alignOptions[0]} >
-      <Button type="primary" onClick={() => showModal(false)} style={{ margin: '  30px 35px 3px   10px  ', height:'40px' }} >
-        Add New Villa
-      </Button>
-      
-      </Flex>
-      
       <Modal
-        title={isEdit ? 'Edit Villa' : 'Add New Villa'}
-        open={isEdit ? editVillaForm.isModalOpen : createVillaForm.isModalOpen}
+        title={isEditing ? 'Edit Villa' : 'Add New Villa'}
+        open={isModalOpen}
         onCancel={handleCancel}
         footer={null}
       >
-        <Form form={isEdit ? editForm : createForm} onFinish={onFinish} layout={ 'vertical' }>
-       
+        <Form onFinish={handleSubmit(onSubmit)}>
           <Form.Item
-            label="Location"
-            name="location"
-            rules={[{ required: true, message: 'Please input the location!' }]}
+            label="location"
+            validateStatus={errors.location ? 'error' : ''}
+            help={errors.location ? errors.location.message : null}
           >
-            <Input />
+            <Controller
+              name="location"
+              control={control}
+              rules={{ required: 'location is required' }}
+              render={({ field }) => <Input {...field} />}
+            />
           </Form.Item>
 
           <Form.Item
-            label="Location Type"
-            name="locationType"
-            rules={[{ required: true, message: 'Please select the location type!' }]}
+            label="area"
+            validateStatus={errors.area ? 'error' : ''}
+            help={errors.area ? errors.area.message : null}
           >
-            <Select>
-              {Object.values(LocationType).map((type) => (
-                <Option key={type} value={type}>
-                  {type}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
-          
-          <Flex  justify={justifyOptions[3]} align={alignOptions[0]}>
-          <Form.Item
-            label="Floors"
-            name="floors"
-            rules={[{ required: true, message: 'Please input the number of floors!' }]}
-          >
-            <InputNumber min={1} />
-          </Form.Item>
+            <Controller
+              name="area"
+              control={control}
+              rules={{
+                required: 'Email is required',
 
-          <Form.Item
-            label="Area"
-            name="area"
-            rules={[{ required: true, message: 'Please input the area!' }]}
-          >
-            <InputNumber min={1} />
+              }}
+              render={({ field }) => <Input type='number' {...field} />}
+            />
           </Form.Item>
-          
-          <Form.Item
-            label="Number of Rooms"
-            name="numOfRooms"
-            rules={[{ required: true, message: 'Please input the number of rooms!' }]}
-          >
-            <InputNumber min={1} />
-          </Form.Item>
-          </Flex>
-          <Flex  justify={justifyOptions[3]} align={alignOptions[0]}>
-          <Form.Item
-            label="Bathrooms"
-            name="numOfBathrooms"
-            rules={[{ required: true, message: 'Please input the number of bathrooms!' }]}
-          >
-            <InputNumber min={1} />
-          </Form.Item>
-
-          <Form.Item
-            label="Price"
-            name="price"
-            rules={[{ required: true, message: 'Please input the price!' }]}
-          >
-            <InputNumber min={1} />
-          </Form.Item>
-
-          <Form.Item
-            label="Upload Image"
-            name="image"
-           
-          >
-            <Upload
-              name="image"
-              maxCount={1}
-              listType="picture"
-              fileList={uploadFileList}
-              customRequest={({ onSuccess }) => onSuccess?.(null)}
-              onChange={({ fileList }) => setUploadFileList(fileList)}
-            >
-              <Button>Click to Upload</Button>
-            </Upload>
-            
-          </Form.Item>
-          </Flex>
-          <Flex  justify={justifyOptions[1]} align={alignOptions[1]} >
           <Form.Item>
-            <Button type="primary" htmlType="submit"  style={{width:'100px', height:'40px'}} >
-              {isEdit ? 'Edit Villa' : 'Add Villa'}
+            <Button type="primary" htmlType="submit">
+              Submit
             </Button>
           </Form.Item>
-          </Flex>
         </Form>
-      </Modal>
+
+        <Upload
+          name="image"
+          maxCount={1}
+          listType="picture"
+          fileList={uploadFileList}
+          customRequest={({ onSuccess }) => onSuccess?.(null)}
+          onChange={({ fileList }) => setUploadFileList(fileList)}
+        >
+          <Button>Click to Upload</Button>
+        </Upload>
+
+
+        <Flex justify={justifyOptions[1]} align={alignOptions[1]} >
+
+          <Button type="primary" htmlType="submit" style={{ width: '100px', height: '40px' }} >
+            {isEditing ? 'Edit Villa' : 'Add Villa'}
+          </Button>
+
+        </Flex>
+
+      </Modal >
     </>
   );
 };

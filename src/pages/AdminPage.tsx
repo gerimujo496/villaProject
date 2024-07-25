@@ -4,7 +4,6 @@ import VillasTable from "../components/Admin/VillasTable";
 const AdminPage = () => {
   return (
     <>
-      <VillaForm />
       <VillasTable />
     </>
   );
