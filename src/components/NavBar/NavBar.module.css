@@ -10,8 +10,14 @@
   width: fit-content;
 }
 
-.navBarContainer h1 {
+.navBarContainer .imgContainer {
   cursor: pointer;
+  width: 100px;
+  height: 100px;
+}
+.navBarContainer .imgContainer img {
+  width: 100%;
+  height: 100%;
 }
 .logo {
   font-size: 90px;

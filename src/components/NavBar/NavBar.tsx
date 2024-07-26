@@ -85,7 +85,9 @@ const NavBar = () => {
 
   return (
     <div className={styles.navBarContainer}>
-      <h1 onClick={() => navigate("/")}>Real Estate</h1>
+      <div className={styles.imgContainer} onClick={() => navigate("/")}>
+        <img src="src/assets/logo.jpg" />
+      </div>
       <ModalCart
         isModalOpen={isModalOpen}
         handleCancel={handleCancel}
