@@ -1,27 +1,25 @@
 import React, { useState } from "react";
-import { Table, Tag, Space, Button, Form, Flex } from "antd";
+import { Table, Tag, Space, Button, Flex } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { Villas } from "../../types/types";
 import { useVillasTable } from "../../hooks/useVillaTable";
-import { useVillaEditor } from "../../hooks/useEditVilla";
 import { DeleteOutlined, EditTwoTone } from "@ant-design/icons";
-import VillaForm from "./VillaForm";
-import { Villa } from "../../types/villas";
 import EditVillaForm from "./mutationForms/EditVillaForm";
 import CreateVillaForm from "./mutationForms/CreateVillaForm";
 
 const VillasTable: React.FC = () => {
-  // const [form] = Form.useForm();
+ 
   const [selectedVilla, setSelectedVilla] = useState<Villas | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { data, error, isLoading, getColumnSearchProps, handleDelete } = useVillasTable();
+  const { data, error, isLoading, getColumnSearchProps, handleDelete } =
+    useVillasTable();
 
-  // const { handleEdit } = useVillaEditor(editForm);
+
 
   const handleEdit = (record: Villas) => {
-    setSelectedVilla(record)
+    setSelectedVilla(record);
     setIsModalOpen(true);
-  }
+  };
 
   const columns: ColumnsType<Villas> = [
     {
@@ -106,8 +104,12 @@ const VillasTable: React.FC = () => {
 
   return (
     <>
-      <Flex justify="flex-end" align={"center"} >
-        <Button type="primary" onClick={() => setIsModalOpen(true)} style={{ margin: '  30px 35px 3px   10px  ', height: '40px' }} >
+      <Flex justify="flex-end" align={"center"}>
+        <Button
+          type="primary"
+          onClick={() => setIsModalOpen(true)}
+          style={{ margin: "  30px 35px 3px   10px  ", height: "40px" }}
+        >
           Add New Villa
         </Button>
       </Flex>
@@ -123,8 +125,20 @@ const VillasTable: React.FC = () => {
         pagination={{ pageSize: 10 }}
         scroll={{ x: 1000 }}
       />
-      {selectedVilla && <EditVillaForm setSelectedVilla={setSelectedVilla} villa={selectedVilla} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} />}
-      <CreateVillaForm setSelectedVilla={setSelectedVilla} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} />
+      {selectedVilla ? (
+        <EditVillaForm
+          setSelectedVilla={setSelectedVilla}
+          villa={selectedVilla}
+          setIsModalOpen={setIsModalOpen}
+          isModalOpen={isModalOpen}
+        />
+      ) : (
+        <CreateVillaForm
+          setSelectedVilla={setSelectedVilla}
+          setIsModalOpen={setIsModalOpen}
+          isModalOpen={isModalOpen}
+        />
+      )}
     </>
   );
 };
