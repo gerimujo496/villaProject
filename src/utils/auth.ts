@@ -19,24 +19,22 @@ export const getTokenFromLocalStorage = (): ExtendedJwtPayload | null => {
 export const isUserAuthenticated = () => {
   const tokenData = getTokenFromLocalStorage();
   if (!tokenData || !tokenData.exp) {
-    return false; // Token or expiration time not found, assume not authenticated
+    return false; 
   }
   const { exp: dateInSeconds } = tokenData;
-  const currentSeconds = Math.floor(Date.now() / 1000); // Current time in seconds
+  const currentSeconds = Math.floor(Date.now() / 1000); 
 
   if (dateInSeconds > currentSeconds) {
-    return true; // Token is still valid
+    return true; 
   }
 
-  return false; // Token has expired
+  return false; 
 };
 
 export const isAdminAuthenticated = () => {
   const tokenData = getTokenFromLocalStorage();
   if (!tokenData || !tokenData.email) {
-    return false; // Token or expiration time not found, assume not authenticated
+    return false; 
   }
   return tokenData.email.includes("admin");
-
-  return false;
 };

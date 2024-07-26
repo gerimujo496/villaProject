@@ -7,7 +7,7 @@ import {
   HeartOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Badge, Button, Menu } from "antd";
+import { Badge, Button, Menu, Popconfirm } from "antd";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { isAdminAuthenticated } from "../../utils/auth";
 import { ModalCart } from "../ModalCart/ModalCart";
@@ -22,6 +22,7 @@ const NavBar = () => {
   const { pathname } = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { villaWishList, villaBuyList } = useStore();
+
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -99,15 +100,21 @@ const NavBar = () => {
         mode="horizontal"
         items={items}
       />
-      <Button
-        onClick={() => {
+      <Popconfirm
+        title="Confirm"
+        description="Are you sure you want to log out?"
+        onConfirm={() => {
           localStorage.removeItem("token");
           navigate("/login");
         }}
+        okText="Yes"
+        cancelText="No"
       >
-        <LogoutOutlined />
-        Logout
-      </Button>
+        <Button>
+          <LogoutOutlined />
+          Logout
+        </Button>
+      </Popconfirm>
     </div>
   );
 };

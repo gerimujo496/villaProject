@@ -20,6 +20,7 @@ export const ModalCart: React.FC<Props> = ({
   handleCancel,
   isModalOpen,
 }) => {
+
   const sellVilla = useSellVilla();
   const { villaBuyList, removeVillaFromBuyList } = useStore();
   const [api, contextHolder] = notification.useNotification();
@@ -50,7 +51,7 @@ export const ModalCart: React.FC<Props> = ({
         <div> 
           {villaBuyList.map((item) => (
             <BuyListElement
-              key={item.id} // Ensure each child in a list has a unique "key" prop
+              key={item.id} 
               id={item.id}
               image={item.image}
               location={item.location}

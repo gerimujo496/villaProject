@@ -72,19 +72,19 @@
   width: 94%;
   padding: 12px;
   font-size: 1rem;
-  border: 1px solid #1890ff; /* Ant Design blue border */
+  border: 1px solid #1890ff;
   border-radius: 8px;
   outline: none;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .inputForm:focus {
-  border-color: #1890ff; /* Ant Design blue border on focus */
-  box-shadow: 0 0 8px rgba(24, 144, 255, 0.5); /* Blue shadow on focus */
+  border-color: #1890ff;
+  box-shadow: 0 0 8px rgba(24, 144, 255, 0.5); 
 }
 
 .errorMessage {
-  color: #dc143c; /* Crimson Red for error messages */
+  color: #dc143c; 
   font-size: 0.9rem;
   margin-top: 5px;
   
@@ -100,23 +100,23 @@
 
 @media (max-width: 600px) {
   .formContainer {
-    padding: 15px; /* Reduced padding for smaller screens */
-    width: 90%; /* Adjusted width to fit better on small screens */
+    padding: 15px; 
+    width: 90%; 
   }
 
   .title {
-    font-size: 1.4rem; /* Reduced font size for title */
+    font-size: 1.4rem;
   }
 
   .inputForm {
     width: 94%;
-    font-size: 0.9rem; /* Slightly smaller font size for inputs */
-    padding: 10px; /* Reduced padding for inputs */
+    font-size: 0.9rem; 
+    padding: 10px; 
   }
 
   .buttonConfirm {
-    padding: 10px 20px; /* Reduced padding for buttons */
-    font-size: 0.9rem; /* Smaller font size for buttons */
+    padding: 10px 20px; 
+    font-size: 0.9rem; 
    
     
   }

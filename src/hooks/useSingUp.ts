@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { UserAuthentication } from "../types/userAuthentication";
-import { SuccesfulSingUp } from "../types/succesfulSingUp";
+import { SuccesfulSingUp } from "../types/succesfulSignUp";
 import { singUp } from "../services/auth";
 import { useNavigate } from "react-router-dom";
 
