@@ -4,4 +4,5 @@ export interface Filters {
   bathrooms?: number;
   locationType?: string;
   price?: number | string;
+  isForSale?: string
 }

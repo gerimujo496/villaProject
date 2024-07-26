@@ -13,14 +13,17 @@ export const getVillas = async (): Promise<Villa[]> => {
   return Object.entries(data).map(([id, villa]) => ({ id, ...villa }));
 };
 
+export const getSingleVilla = async (
+  villaId: string | undefined
+): Promise<Villa> => {
+  const { data } = await apiClient.get(`/villas/${villaId}.json`);
+  return data;
+};
+
 export const sellVila = async (documentName: string) => {
   apiClient.patch(`/villas/${documentName}.json`, { isForSale: false });
 };
-// export const addVilla = async (villa: Omit<Villas, 'id'>): Promise<Villas> => {
 
-//     const { data } = await apiClient.post('/villas.json', villa);
-//     return { id: data.name, ...villa };
-//   };
 export const updateVilla = async (
   id: string,
   villa: Partial<Omit<Villa, "id">>

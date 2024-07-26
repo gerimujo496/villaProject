@@ -1,7 +1,6 @@
 import { Filters } from "../types/filters";
 import { Villa } from "../types/villa";
 
-
 export function filteredVillasFn(
   villasArray: Villa[] | undefined,
   filters: Filters
@@ -13,10 +12,9 @@ export function filteredVillasFn(
 }
 
 export const filterVillas = (villasArray: Villa[], filters: Filters) => {
-
   return villasArray.filter((villa: any) => {
     const matchesLocation = filters.location
-      ? villa.location.toLowerCase().includes(filters.location.toLowerCase())
+      ? villa.location?.toLowerCase().includes(filters.location.toLowerCase())
       : true;
     const matchesFloors = filters.floors
       ? villa.floors === filters.floors
@@ -27,6 +25,10 @@ export const filterVillas = (villasArray: Villa[], filters: Filters) => {
     const matchesLocationType =
       filters.locationType && filters.locationType !== "all"
         ? villa.locationType === filters.locationType
+        : true;
+    const matchesIsForSale =
+      filters.isForSale
+        ? filters.isForSale === villa.isForSale 
         : true;
     const matchesPrice =
       filters.price && filters.price !== "all"
@@ -47,6 +49,7 @@ export const filterVillas = (villasArray: Villa[], filters: Filters) => {
       matchesFloors &&
       matchesBathrooms &&
       matchesLocationType &&
+      matchesIsForSale&&
       matchesPrice
     );
   });

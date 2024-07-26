@@ -1,85 +1,110 @@
-import { Card, Row, Col, Button } from "antd";
+import React from "react";
+import { Card, Row, Col, Button, Typography } from "antd";
 import {
   ShoppingCartOutlined,
   HeartOutlined,
   ArrowLeftOutlined,
 } from "@ant-design/icons";
 import Meta from "antd/es/card/Meta";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  MdOutlineBathroom,
+  MdOutlineBedroomChild,
+  MdOutlineAreaChart,
+} from "react-icons/md";
+import { useVillaDetail } from "../hooks/useVillaDetail";
 
+const { Title, Text } = Typography;
 
-function VillaDetails() {
+const VillaDetails: React.FC = () => {
   const navigate = useNavigate();
+
+  const { villaId } = useParams();
+  const { data } = useVillaDetail(villaId);
+
   const handleAddVillaToWishList = () => {
-    console.log("adding to wishlist");
+    console.log("Adding to wishlist");
   };
 
   const handleAddVillaToCart = () => {
-    console.log("adding to cart");
+    console.log("Adding to cart");
   };
 
   return (
-    <div style={{ padding: "20px", marginBottom: "20px" }}>
+    <div style={{ padding: "20px", position: "relative" }}>
       <Button
         type="text"
         icon={<ArrowLeftOutlined />}
         onClick={() => navigate("..")}
         style={{
           position: "absolute",
-          top: "4.5rem",
+          top: "20px",
           left: "20px",
           fontSize: "24px",
         }}
       />
-      <Card style={{ width: "100%", cursor: "pointer", marginTop: "40px" }}>
+      <Card style={{ width: "100%", marginTop: "60px", borderRadius: "8px" }}>
         <Row gutter={16}>
           <Col span={12}>
             <img
               alt="Villa"
-              src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-              style={{ width: "100%", height: "auto" }}
+              src={data?.image}
+              style={{ width: "100%", height: "auto", borderRadius: "8px" }}
             />
           </Col>
           <Col span={12}>
             <Meta
               title={
-                <span style={{ fontSize: "24px" }}>Villa Sponxh Hamedani</span>
-              }
-              description={
-                <span style={{ fontSize: "16px" }}>
-                  A spacious villa with a great mountain view. Buying this villa
-                  will make you much happier. Sometimes money can buy happiness.
-                </span>
+                <Title level={3} style={{ marginBottom: 8 }}>
+                  Villa Sponxh Hamedani
+                </Title>
               }
             />
-            <div style={{ marginTop: 16 }}>
-              <p style={{ fontSize: "18px" }}>
-                <strong>Size:</strong> 150 sqm
-              </p>
-              <p style={{ fontSize: "18px" }}>
-                <strong>Location:</strong> Tirana
-              </p>
-              <p style={{ fontSize: "18px" }}>
-                <strong>Price:</strong> €500,000
-              </p>
-              <p style={{ fontSize: "18px" }}>
-                <strong>Floors:</strong> 2
-              </p>
-              <p style={{ fontSize: "18px" }}>
-                <strong>Rooms:</strong> 7
-              </p>
-              <p style={{ fontSize: "18px" }}>
-                <strong>Bathrooms:</strong> 3
-              </p>
+            <div style={{ marginTop: 40 }}>
+              <Text strong style={{ fontSize: "18px" }}>
+                <MdOutlineAreaChart style={{ marginRight: 8 }} />
+                Size:
+              </Text>{" "}
+              <Text style={{ fontSize: "18px" }}>{data?.area} m²</Text>
+              <br />
+              <Text strong style={{ fontSize: "18px" }}>
+                <HeartOutlined style={{ marginRight: 8 }} />
+                Location:
+              </Text>{" "}
+              <Text style={{ fontSize: "18px" }}>{data?.location}</Text>
+              <br />
+              <Text strong style={{ fontSize: "18px" }}>
+                <ShoppingCartOutlined style={{ marginRight: 8 }} />
+                Price:
+              </Text>{" "}
+              <Text style={{ fontSize: "18px" }}>€{data?.price}</Text>
+              <br />
+              <Text strong style={{ fontSize: "18px" }}>
+                <HeartOutlined style={{ marginRight: 8 }} />
+                Floors:
+              </Text>{" "}
+              <Text style={{ fontSize: "18px" }}>{data?.floors}</Text>
+              <br />
+              <Text strong style={{ fontSize: "18px" }}>
+                <MdOutlineBedroomChild style={{ marginRight: 8 }} />
+                Rooms:
+              </Text>{" "}
+              <Text style={{ fontSize: "18px" }}>{data?.rooms}</Text>
+              <br />
+              <Text strong style={{ fontSize: "18px" }}>
+                <MdOutlineBathroom style={{ marginRight: 8 }} />
+                Bathrooms:
+              </Text>{" "}
+              <Text style={{ fontSize: "18px" }}>{data?.bathrooms}</Text>
             </div>
-            <div>
+            <div style={{ marginTop: 30 }}>
               <HeartOutlined
                 onClick={handleAddVillaToWishList}
-                style={{ marginRight: 16, fontSize: "24px", cursor: "pointer" }}
+                style={{ marginRight: 20, fontSize: "28px", cursor: "pointer" }}
               />
               <ShoppingCartOutlined
                 onClick={handleAddVillaToCart}
-                style={{ fontSize: "24px", cursor: "pointer" }}
+                style={{ fontSize: "28px", cursor: "pointer" }}
               />
             </div>
           </Col>
@@ -87,6 +112,6 @@ function VillaDetails() {
       </Card>
     </div>
   );
-}
+};
 
 export default VillaDetails;

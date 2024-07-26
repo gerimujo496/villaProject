@@ -38,7 +38,7 @@ export const SignIn = () => {
         className={styles.goBackButton}
         onClick={() => navigate("/signup")}
       >
-        Sign In
+        Sign Up
       </Button>
       <Form
         name="signin"
@@ -59,11 +59,10 @@ export const SignIn = () => {
             <Controller
               name="email"
               control={control}
-             
               defaultValue=""
               render={({ field }) => (
                 <Input
-                style={{marginBottom:"10px"}}
+                  style={{ marginBottom: "10px" }}
                   {...field}
                   prefix={<MailOutlined />}
                   placeholder="Email"
