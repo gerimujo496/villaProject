@@ -3,8 +3,8 @@ import { createBrowserRouter } from "react-router-dom";
 import VillaList from "../pages/VillaList";
 import VillaDetails from "../pages/VillaDetails";
 import PrivateRoutes from "../pages/PrivateRoutes";
-import { SignIn } from "../pages/SingIn/SingIn";
-import { SignUp } from "../pages/Singup/Singup";
+import { SignIn } from "../pages/SignIn/SignIn";
+import { SignUp } from "../pages/SignUp/SignUp";
 import { WishList } from "../components/WishList/WishList";
 import { CartList } from "../components/CartList/CartList";
 
@@ -32,8 +32,7 @@ const router = createBrowserRouter([
           { path: "wishlist", element: <WishList /> },
           {
             path: "admin",
-            element: <AdminPage/>,
-           
+            element: <AdminPage />,
           },
           { path: "cartList", element: <CartList /> },
         ],

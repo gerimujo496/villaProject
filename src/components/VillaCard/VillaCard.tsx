@@ -12,10 +12,11 @@ import { useStore } from "../../store/store";
 import { Villa } from "../../types/villa";
 import { NotificationPlacement } from "antd/es/notification/interface";
 import { FaRegBuilding } from "react-icons/fa";
-import { MdOutlineBathroom, MdOutlineBedroomChild, MdOutlineAreaChart } from "react-icons/md";
-
-
-
+import {
+  MdOutlineBathroom,
+  MdOutlineBedroomChild,
+  MdOutlineAreaChart,
+} from "react-icons/md";
 
 import {
   formatVillaCardProperties,
@@ -90,29 +91,58 @@ const VillaCard = ({ villa }: Props) => {
         <img
           alt="Villa"
           src={villa.image}
-          style={{ borderRadius: "8px 8px 0 0", height: "200px", objectFit: "cover" }}
+          style={{
+            borderRadius: "8px 8px 0 0",
+            height: "200px",
+            objectFit: "cover",
+          }}
         />
       }
       onClick={() => navigate(`/villas/${villa.id}`)}
     >
       {contextHolder}
-      <Meta title={villa.location}/>
+      <Meta title={villa.location} />
       <div style={{ marginTop: 16 }}>
         {formatVillaCardProperties(villa).map((item) => (
-          <div style={{ marginBottom: "8px", display: "flex", alignItems: "center" }} key={item.propertyName}>
-            {item.propertyName === "Location" && <EnvironmentOutlined style={{ marginRight: 8 }} />}
-            {item.propertyName === "Price" && <EuroOutlined style={{ marginRight: 8 }} />}
-            {item.propertyName === "Rooms" && <MdOutlineBedroomChild style={{ marginRight: 8 }} />}
-            {item.propertyName === "Bathrooms" && <MdOutlineBathroom style={{ marginRight: 8 }} />}
-            {item.propertyName === "Floors" && <FaRegBuilding style={{ marginRight: 8 }} />}
-            {item.propertyName === "Area" && <MdOutlineAreaChart style={{ marginRight: 8 }} />}
+          <div
+            style={{
+              marginBottom: "8px",
+              display: "flex",
+              alignItems: "center",
+            }}
+            key={item.propertyName}
+          >
+            {item.propertyName === "Location" && (
+              <EnvironmentOutlined style={{ marginRight: 8 }} />
+            )}
+            {item.propertyName === "Price" && (
+              <EuroOutlined style={{ marginRight: 8 }} />
+            )}
+            {item.propertyName === "Rooms" && (
+              <MdOutlineBedroomChild style={{ marginRight: 8 }} />
+            )}
+            {item.propertyName === "Bathrooms" && (
+              <MdOutlineBathroom style={{ marginRight: 8 }} />
+            )}
+            {item.propertyName === "Floors" && (
+              <FaRegBuilding style={{ marginRight: 8 }} />
+            )}
+            {item.propertyName === "Area" && (
+              <MdOutlineAreaChart style={{ marginRight: 8 }} />
+            )}
             <Text strong>
               {item.propertyName}: {item.propertyData}
             </Text>
           </div>
         ))}
       </div>
-      <div style={{ marginTop: 16, display: "flex", justifyContent: "space-between" }}>
+      <div
+        style={{
+          marginTop: 16,
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
         <Tooltip title="Add villa to wishlist">
           {isVillaInWishList ? (
             <HeartFilled
@@ -155,21 +185,21 @@ const VillaCard = ({ villa }: Props) => {
           {villa.isForSale ? "BUY NOW" : "IS SOLD"}
         </strong>
         <Tooltip title="Add villa to shopping cart">
-        <ShoppingCartOutlined
-          style={{
-            color: isVillaInBuyList ? "#1890ff" : "rgba(0, 0, 0, 0.45)",
-            cursor: "pointer",
-          }}
-          onClick={(e) => {
-            e.stopPropagation();
-            handleAddVillaToCart({
-              villa: villa,
-              isInTheList: isVillaInBuyList,
-              removeFromTheList: removeVillaFromBuyList,
-              addToList: addVillaToBuyList,
-            });
-          }}
-        />
+          <ShoppingCartOutlined
+            style={{
+              color: isVillaInBuyList ? "#1890ff" : "rgba(0, 0, 0, 0.45)",
+              cursor: "pointer",
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAddVillaToCart({
+                villa: villa,
+                isInTheList: isVillaInBuyList,
+                removeFromTheList: removeVillaFromBuyList,
+                addToList: addVillaToBuyList,
+              });
+            }}
+          />
         </Tooltip>
       </div>
     </Card>

@@ -11,6 +11,7 @@
   box-sizing: border-box;
 }
 
+
 .goBackButton {
   position: absolute;
   top: 20px;
@@ -40,6 +41,7 @@
   border-radius: 12px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Deeper shadow for elevation */
   display: flex;
+  gap:3rem;
   flex-direction: column;
   
   width: 100%;
@@ -85,7 +87,8 @@
   color: #dc143c; /* Crimson Red for error messages */
   font-size: 0.9rem;
   margin-top: 5px;
-  text-align: left;
+  
+   text-align: center;
 }
 
 .signInButton {
@@ -114,5 +117,7 @@
   .buttonConfirm {
     padding: 10px 20px; /* Reduced padding for buttons */
     font-size: 0.9rem; /* Smaller font size for buttons */
+   
+    
   }
 }
