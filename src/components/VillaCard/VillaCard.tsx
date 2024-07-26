@@ -56,10 +56,12 @@ const VillaCard = ({ villa }: Props) => {
 
   const buyVilla = () => {
     if (villa.isForSale) {
-       mutate(villa.id, {
+      mutate(villa.id, {
         onSuccess: () => {
-          setVillaIsBoughtToTrue(villa.id);
           openNotification("Success", "The villa is bought", "topLeft");
+          setVillaIsBoughtToTrue(villa.id);
+          removeVillaFromBuyList(villa.id);
+          removeVillaFromWishList(villa.id);
         },
         onError: () => {
           openNotification("Error", "An error occurred", "topLeft");
@@ -75,12 +77,7 @@ const VillaCard = ({ villa }: Props) => {
     >
       <Card
         style={{ width: 300, cursor: "pointer" }}
-        cover={
-          <img
-            alt="example"
-            src={villa.image}
-          />
-        }
+        cover={<img alt="example" src={villa.image} />}
         onClick={() => navigate(`/villas/id`)}
         actions={[
           isVillaInWishList ? (
@@ -99,6 +96,7 @@ const VillaCard = ({ villa }: Props) => {
             />
           ) : (
             <HeartOutlined
+              style={{ opacity: villa.isForSale ? "1" : "0.3" }}
               onClick={(e) => {
                 e.stopPropagation();
                 handleAddVillaToWishList({
@@ -130,7 +128,7 @@ const VillaCard = ({ villa }: Props) => {
             }}
             onClick={(e) => {
               e.stopPropagation();
-              if(villa.isForSale){
+              if (villa.isForSale) {
                 handleAddVillaToCart({
                   villa: villa,
                   isInTheList: isVillaInBuyList,
@@ -138,7 +136,6 @@ const VillaCard = ({ villa }: Props) => {
                   addToList: addVillaToBuyList,
                 });
               }
-             
             }}
             key="cart"
           />,

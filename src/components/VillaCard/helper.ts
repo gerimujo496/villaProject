@@ -18,6 +18,9 @@ export const isVillaInBuyListHelper = (
 export const handleAddVillaToWishList = (
   args: FunctionPropsHandleWishAndBuy
 ) => {
+  if(!args.villa.isForSale){
+    return;
+  }
   if (args.isInTheList) {
     args.removeFromTheList(args.villa.id);
     return;

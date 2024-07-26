@@ -86,6 +86,7 @@ export const removeVillaFromBuyList = (set: any) => (id: string) => {
     const newVilaBuyList = villaBuyListFromLocalStorageInArray.filter(
       (item) => item.id != id
     );
+    console.log("u hoqqqq", newVilaBuyList);
     localStorage.setItem("vilaBuyList", JSON.stringify(newVilaBuyList));
   }
 
@@ -93,8 +94,23 @@ export const removeVillaFromBuyList = (set: any) => (id: string) => {
     villaBuyList: [...store.villaBuyList.filter((item) => item.id != id)],
   }));
 };
+const setVillaBuyListToTrue =(set:any)=>(id:string)=>{
+  const villaBuyListFromLocalStorage = localStorage.getItem("vilaBuyList");
 
+  if (villaBuyListFromLocalStorage) {
+    const villaBuyListFromLocalStorageInArray: Villa[] = JSON.parse(
+      villaBuyListFromLocalStorage
+    );
+    const newVilaBuyList = villaBuyListFromLocalStorageInArray.map((item) =>
+      item.id == id ? { ...item, isForSale: false } : item
+    );
+    localStorage.setItem("vilaBuyList", JSON.stringify(newVilaBuyList));
+  }
+}
 export const setVillaIsBoughtToTrue = (set: any) => (id: string) => {
+ 
+
+  setVillaBuyListToTrue(id);
   set((store: ZustandStore) => ({
     villaBuyList: store.villaBuyList.map((item) =>
       item.id === id ? { ...item, isForSale: false } : item
