@@ -2,6 +2,7 @@ import apiClient from "./apiClient";
 import type { Villa } from "../types/villa";
 
 import { uploadImageToFirebase } from "./imageUpload";
+import axios from "axios";
 
 interface VillasResponse {
   [key: string]: Omit<Villa, "id">;
@@ -12,6 +13,7 @@ export const getVillas = async (): Promise<Villa[]> => {
 
   return Object.entries(data).map(([id, villa]) => ({ id, ...villa }));
 };
+
 
 export const sellVila = async (documentName: string) => {
   apiClient.patch(`/villas/${documentName}.json`, { isForSale: false });
