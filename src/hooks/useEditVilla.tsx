@@ -3,16 +3,17 @@ import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FormInstance } from 'antd';
 import { updateVilla } from '../services/villasServices';
-import { Villas } from '../types/types';
+import { Villa } from '../types/villa';
+
 
 export const useVillaEditor = (form: FormInstance) => {
   const queryClient = useQueryClient();
 
-  const [editingVilla, setEditingVilla] = useState<Villas | null>(null);
+  const [editingVilla, setEditingVilla] = useState<Villa | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const mutation = useMutation({
-    mutationFn: async (values: Villas) => {
+    mutationFn: async (values: Villa) => {
       if (editingVilla) {
         await updateVilla(editingVilla.id, values);
       }
@@ -28,7 +29,7 @@ export const useVillaEditor = (form: FormInstance) => {
     },
   });
 
-  const handleEdit = (villa: Villas) => {
+  const handleEdit = (villa: Villa) => {
     setIsModalOpen(true);
     setEditingVilla(villa);
     form.setFieldsValue(villa);
