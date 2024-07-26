@@ -1,7 +1,4 @@
-import { UseMutateFunction, UseMutationResult } from "@tanstack/react-query";
-import { Villas } from "../../types/types";
 import { Villa } from "../../types/villa";
-import { NotificationPlacement } from "antd/es/notification/interface";
 import { BuyAllVillas } from "../../types/buyAllVillas";
 
 export const totalVillasPriceCalculator = (villas: Villa[]) => {

@@ -1,6 +1,6 @@
 import { Villa } from "../../types/villa";
 import { FunctionPropsHandleWishAndBuy } from "./type";
-
+import styles from "./VillaCard.module.css";
 export const isVillaInWishListHelper = (
   villaWishList: Villa[],
   villaId: string
@@ -45,4 +45,18 @@ export const formatVillaCardProperties = (villa: Villa) => {
     { propertyName: "Rooms", propertyData: villa.rooms },
     { propertyName: "Bathrooms", propertyData: villa.bathrooms },
   ];
+};
+
+export const BadgeRibonStyle = (isForSale: boolean) => {
+  if (isForSale) {
+    return styles.BadgeRibonDisplayNone;
+  }
+  return styles.BadgeRibonDisplayBlock;
+};
+
+export const BuyNowOpacity = (isForSale: boolean) => {
+  if (isForSale) {
+    return styles.buyNowOpacity1;
+  }
+  return styles.buyNowOpacity03;
 };
