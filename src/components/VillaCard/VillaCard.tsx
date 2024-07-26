@@ -9,8 +9,10 @@ import Meta from "antd/es/card/Meta";
 import { useStore } from "../../store/store";
 import { Villa } from "../../types/villa";
 import { NotificationPlacement } from "antd/es/notification/interface";
-
+import styles from "./VillaCard.module.css";
 import {
+  BadgeRibonStyle,
+  BuyNowOpacity,
   formatVillaCardProperties,
   handleAddVillaToCart,
   handleAddVillaToWishList,
@@ -74,12 +76,9 @@ const VillaCard = ({ villa }: Props) => {
   };
 
   return (
-    <Badge.Ribbon
-      style={{ display: villa.isForSale ? "none" : "block" }}
-      text="IS SOLD"
-    >
+    <Badge.Ribbon className={BadgeRibonStyle(villa.isForSale)} text="IS SOLD">
       <Card
-        style={{ width: 300, cursor: "pointer" }}
+        className={styles.card}
         cover={<img alt="example" src={villa.image} />}
         onClick={() => navigate(`/villas/id`)}
         actions={[
@@ -113,9 +112,7 @@ const VillaCard = ({ villa }: Props) => {
             />
           ),
           <strong
-            style={{
-              opacity: villa.isForSale ? "1" : "0.3",
-            }}
+            className={BuyNowOpacity(villa.isForSale)}
             onClick={(e) => {
               e.stopPropagation();
               buyVilla();

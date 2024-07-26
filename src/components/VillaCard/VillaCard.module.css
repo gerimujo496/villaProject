@@ -1,0 +1,19 @@
+.BadgeRibonDisplayNone{
+    display: none;
+}
+.BadgeRibonDisplayBlock{
+    display: block;
+
+}
+.card{
+    width: 300px;cursor: pointer;
+}
+.buyNowOpacity1{
+    opacity: 1;
+}
+.buyNowOpacity03{
+opacity: 0.3;
+}
+.prov{
+    color:red
+}
