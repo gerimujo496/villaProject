@@ -8,7 +8,7 @@ export interface Villa {
   isForSale: boolean;
   location: string;
   locationType: LocationType;
-  numOfBathrooms: number;
-  numOfRooms: number;
+  bathrooms: number;
+  rooms: number;
   price: number;
 }

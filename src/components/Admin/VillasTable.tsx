@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Table, Tag, Space, Button, Flex } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { Villas } from "../../types/types";
+import { Villa } from "../../types/villa";
 import { useVillasTable } from "../../hooks/useVillaTable";
 import { DeleteOutlined, EditTwoTone } from "@ant-design/icons";
 import EditVillaForm from "./mutationForms/EditVillaForm";
@@ -9,19 +9,19 @@ import CreateVillaForm from "./mutationForms/CreateVillaForm";
 
 const VillasTable: React.FC = () => {
  
-  const [selectedVilla, setSelectedVilla] = useState<Villas | null>(null);
+  const [selectedVilla, setSelectedVilla] = useState<Villa | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data, error, isLoading, getColumnSearchProps, handleDelete } =
     useVillasTable();
 
 
 
-  const handleEdit = (record: Villas) => {
+  const handleEdit = (record: Villa) => {
     setSelectedVilla(record);
     setIsModalOpen(true);
   };
 
-  const columns: ColumnsType<Villas> = [
+  const columns: ColumnsType<Villa> = [
     {
       title: "Location",
       dataIndex: "location",
@@ -50,15 +50,15 @@ const VillasTable: React.FC = () => {
     },
     {
       title: "Rooms",
-      dataIndex: "numOfRooms",
-      key: "numOfRooms",
-      sorter: (a, b) => (a.numOfRooms || 0) - (b.numOfRooms || 0),
+      dataIndex: "rooms",
+      key: "rooms",
+      sorter: (a, b) => (a.rooms || 0) - (b.rooms || 0),
     },
     {
       title: "Bathrooms",
-      dataIndex: "numOfBathrooms",
-      key: "numOfBathrooms",
-      sorter: (a, b) => (a.numOfBathrooms || 0) - (b.numOfBathrooms || 0),
+      dataIndex: "bathrooms",
+      key: "bathrooms",
+      sorter: (a, b) => (a.bathrooms || 0) - (b.bathrooms || 0),
     },
     {
       title: "Price (million)",

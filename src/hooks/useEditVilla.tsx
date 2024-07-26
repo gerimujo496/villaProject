@@ -1,16 +1,16 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateVilla } from "../services/villasServices";
-import { Villas } from "../types/types";
+import { Villa } from "../types/villa";
 import { UseFormReset } from "react-hook-form";
 
 export const useEditVilla = (
   idOfVillaBeingEdited: string | undefined,
-  reset: UseFormReset<Villas>,
+  reset: UseFormReset<Villa>,
   closeModal: VoidFunction
 ) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: async (values: Villas) => {
+    mutationFn: async (values: Villa) => {
       if (idOfVillaBeingEdited) {
         await updateVilla(idOfVillaBeingEdited, values);
       }

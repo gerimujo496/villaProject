@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { Input, Button, Modal, Upload, UploadFile, Flex } from "antd";
+import { Input, Button, Modal, Upload, UploadFile, Flex, Select } from "antd";
 import { Controller, useForm, SubmitHandler } from "react-hook-form";
-import { Villas } from "../../types/types";
+import { Villa } from "../../types/villa";
 import { Inputs } from "../../types/inputs";
 import useCreateVillaForm from "../../hooks/useCreateVillaForm";
 import useEditVilla from "../../hooks/useEditVilla";
 
 import { uploadImageToFirebase } from "../../services/imageUpload";
-
+const { Option } = Select;
 const justifyOptions = [
   "flex-start",
   "center",
@@ -19,7 +19,7 @@ const justifyOptions = [
 const alignOptions = ["flex-start", "center", "flex-end"];
 
 interface VillaFormProps {
-  villa?: Villas | null;
+  villa?: Villa | null;
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedVilla: any;
@@ -36,8 +36,8 @@ const VillaForm: React.FC<VillaFormProps> = ({
     location: villa?.location || "",
     locationType: villa?.locationType,
     floors: villa?.floors || 0,
-    numOfRooms: villa?.numOfRooms || 0,
-    numOfBathrooms: villa?.numOfBathrooms || 0,
+    rooms: villa?.rooms || 0,
+    bathrooms: villa?.bathrooms || 0,
     price: villa?.price || 0,
     area: villa?.area || 0,
   };
@@ -47,7 +47,7 @@ const VillaForm: React.FC<VillaFormProps> = ({
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<Villas>({
+  } = useForm<Villa>({
     defaultValues,
   });
 
@@ -61,7 +61,7 @@ const VillaForm: React.FC<VillaFormProps> = ({
   });
   const isEditing = !!villa;
 
-  const onSubmit: SubmitHandler<Villas> = async (data) => {
+  const onSubmit: SubmitHandler<Villa> = async (data) => {
     try {
       if (uploadFileList.length > 0) {
         const imageUrl = await uploadImageToFirebase(uploadFileList[0]);
@@ -137,7 +137,7 @@ const VillaForm: React.FC<VillaFormProps> = ({
           )}
         />
         <Controller
-          name="numOfRooms"
+          name="rooms"
           control={control}
           rules={{ required: "Number of Rooms is required" }}
           render={({ field }) => (
@@ -145,14 +145,14 @@ const VillaForm: React.FC<VillaFormProps> = ({
               <label htmlFor={field.name}>Number of Rooms</label>
               <Input
                 {...field}
-                status={errors.numOfRooms ? "error" : undefined}
+                status={errors.rooms ? "error" : undefined}
               />
-              <span>{errors.numOfRooms?.message}</span>
+              <span>{errors.rooms?.message}</span>
             </div>
           )}
         />
         <Controller
-          name="numOfBathrooms"
+          name="bathrooms"
           control={control}
           rules={{ required: "Number of Bathrooms is required" }}
           render={({ field }) => (
@@ -160,9 +160,9 @@ const VillaForm: React.FC<VillaFormProps> = ({
               <label htmlFor={field.name}>Number of Bathrooms</label>
               <Input
                 {...field}
-                status={errors.numOfBathrooms ? "error" : undefined}
+                status={errors.bathrooms ? "error" : undefined}
               />
-              <span>{errors.numOfBathrooms?.message}</span>
+              <span>{errors.bathrooms?.message}</span>
             </div>
           )}
         />
@@ -190,6 +190,28 @@ const VillaForm: React.FC<VillaFormProps> = ({
             </div>
           )}
         />
+        <Controller
+  name="isForSale"
+  control={control}
+  rules={{ required: "Is For Sale is required" }}
+  render={({ field }) => (
+    <div className="input-container">
+      <label htmlFor={field.name}>Is For Sale</label>
+      <Select
+        {...field}
+        status={errors.isForSale ? "error" : undefined}
+        onChange={(value) => field.onChange(value)} // Ensure the value is properly set
+        value={field.value}
+      >
+        <Option value="yes">Yes</Option>
+        <Option value="no">No</Option>
+      </Select>
+      <span>{errors.isForSale?.message}</span>
+    </div>
+  )}
+/>
+
+        
         <Upload
           name="image"
           maxCount={1}

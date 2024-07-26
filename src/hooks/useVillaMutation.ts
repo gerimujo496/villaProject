@@ -1,10 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { Villas } from "../types/types";
+import { Villa } from "../types/villa";
 
 export const useCreateMutation = () => {
   const mutation = useMutation({
-    mutationFn: async (villa: Villas) => {
+    mutationFn: async (villa: Villa) => {
       const response = await axios.post('/api/villas', villa);
       return response.data;
     },
@@ -25,7 +25,7 @@ export const useCreateMutation = () => {
 
 export const useEditMutation = () => {
   const mutation = useMutation({
-    mutationFn: async (villa: Villas) => {
+    mutationFn: async (villa: Villa) => {
       const response = await axios.put(`/api/villas/${villa.id}`, villa);
       return response.data;
     },

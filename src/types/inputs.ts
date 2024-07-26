@@ -5,7 +5,7 @@ export type Inputs = {
     locationType: LocationType | undefined,
     floors: number,
     area: number,
-    numOfRooms: number,
-    numOfBathrooms: number,
+    rooms: number,
+    bathrooms: number,
     price: number,
    }

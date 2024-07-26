@@ -1,9 +1,7 @@
-
-
 import { useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getVillas, deleteVilla } from '../services/villasServices';
-import { Villas } from '../types/types';
+import { Villa } from '../types/villa';
 import { ColumnType } from 'antd/es/table';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
@@ -11,7 +9,7 @@ import { Input, Button, Space, Modal } from 'antd';
 
 export const useVillasTable = () => {
   const queryClient = useQueryClient();
-  const { data, error, isLoading } = useQuery<Villas[]>({
+  const { data, error, isLoading, isError } = useQuery<Villa[]>({
     queryKey: ['villas'],
     queryFn: getVillas,
   });
@@ -30,7 +28,7 @@ export const useVillasTable = () => {
     setSearchText('');
   };
 
-  const getColumnSearchProps = (dataIndex: keyof Villas): ColumnType<Villas> => ({
+  const getColumnSearchProps = (dataIndex: keyof Villa): ColumnType<Villa> => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 8 }}>
         <Input
@@ -93,6 +91,7 @@ export const useVillasTable = () => {
   return {
     data,
     error,
+    isError,
     isLoading,
     searchText,
     searchedColumn,
