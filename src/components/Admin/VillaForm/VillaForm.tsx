@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { Input, Button, Modal, Upload, UploadFile, Flex, Select } from "antd";
 import { Controller, useForm, SubmitHandler } from "react-hook-form";
-import { Villa } from "../../types/villa";
-import { Inputs } from "../../types/inputs";
-import useCreateVillaForm from "../../hooks/useCreateVillaForm";
-import useEditVilla from "../../hooks/useEditVilla";
-
-import { uploadImageToFirebase } from "../../services/imageUpload";
+import { Villa } from "../../../types/villa";
+import { Inputs } from "../../../types/inputs";
+import useCreateVillaForm from "../../../hooks/useCreateVillaForm";
+import useEditVilla from "../../../hooks/useEditVilla";
+import { LocationType } from "../../../types/locationType";
+import { uploadImageToFirebase } from "../../../services/imageUpload";
+import classes from './VillaForm.module.css';
 const { Option } = Select;
 const justifyOptions = [
   "flex-start",
@@ -23,6 +24,7 @@ interface VillaFormProps {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedVilla: any;
+  selectedVilla: any;
 }
 
 const VillaForm: React.FC<VillaFormProps> = ({
@@ -32,6 +34,7 @@ const VillaForm: React.FC<VillaFormProps> = ({
   setSelectedVilla,
 }) => {
   const [uploadFileList, setUploadFileList] = useState<UploadFile[]>([]);
+
   const defaultValues: Inputs = {
     location: villa?.location || "",
     locationType: villa?.locationType,
@@ -40,6 +43,7 @@ const VillaForm: React.FC<VillaFormProps> = ({
     bathrooms: villa?.bathrooms || 0,
     price: villa?.price || 0,
     area: villa?.area || 0,
+    isForSale: villa?.isForSale ?? true,
   };
 
   const {
@@ -93,7 +97,11 @@ const VillaForm: React.FC<VillaFormProps> = ({
       onCancel={handleCancel}
       footer={null}
     >
-      <form className="villa-form" onSubmit={handleSubmit(onSubmit)}>
+      <form
+        style={{ display: "flex", flexDirection: "column", gap: "20px" }}
+        className="villa-form"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <Controller
           name="location"
           control={control}
@@ -114,12 +122,25 @@ const VillaForm: React.FC<VillaFormProps> = ({
           control={control}
           rules={{ required: "Location Type is required" }}
           render={({ field }) => (
-            <div className="input-container">
+            <div
+              className={classes.inputContainer}
+              
+            >
               <label htmlFor={field.name}>Location Type</label>
-              <Input
+              <Select
                 {...field}
                 status={errors.locationType ? "error" : undefined}
-              />
+                onChange={(value) => field.onChange(value)}
+                value={field.value}
+                placeholder={"Location Type"}
+              >
+                {Object.values(LocationType).map((type) => (
+                  <Option key={type} value={type}>
+                    {type}
+                  </Option>
+                ))}
+              </Select>
+
               <span>{errors.locationType?.message}</span>
             </div>
           )}
@@ -143,10 +164,7 @@ const VillaForm: React.FC<VillaFormProps> = ({
           render={({ field }) => (
             <div className="input-container">
               <label htmlFor={field.name}>Number of Rooms</label>
-              <Input
-                {...field}
-                status={errors.rooms ? "error" : undefined}
-              />
+              <Input {...field} status={errors.rooms ? "error" : undefined} />
               <span>{errors.rooms?.message}</span>
             </div>
           )}
@@ -190,28 +208,31 @@ const VillaForm: React.FC<VillaFormProps> = ({
             </div>
           )}
         />
-        <Controller
-  name="isForSale"
-  control={control}
-  rules={{ required: "Is For Sale is required" }}
-  render={({ field }) => (
-    <div className="input-container">
-      <label htmlFor={field.name}>Is For Sale</label>
-      <Select
-        {...field}
-        status={errors.isForSale ? "error" : undefined}
-        onChange={(value) => field.onChange(value)} // Ensure the value is properly set
-        value={field.value}
-      >
-        <Option value="yes">Yes</Option>
-        <Option value="no">No</Option>
-      </Select>
-      <span>{errors.isForSale?.message}</span>
-    </div>
-  )}
-/>
-
-        
+        {isEditing ? (
+          <Controller
+            name="isForSale"
+            control={control}
+            rules={{ required: "Is For Sale is required" }}
+            render={({ field }) => (
+              <div className={classes.inputContainer} >
+                <label htmlFor={field.name}>Is For Sale</label>
+                <Select
+                  {...field}
+                  status={errors.isForSale ? "error" : undefined}
+                  onChange={(value) => field.onChange(value === "yes")}
+                  value={field.value ? "yes" : "no"}
+                  placeholder="Is For Sale"
+                >
+                  <Option value="yes">Yes</Option>
+                  <Option value="no">No</Option>
+                </Select>
+                <span>{errors.isForSale?.message}</span>
+              </div>
+            )}
+          />
+        ) : (
+          " "
+        )}
         <Upload
           name="image"
           maxCount={1}
@@ -227,6 +248,10 @@ const VillaForm: React.FC<VillaFormProps> = ({
             type="primary"
             htmlType="submit"
             style={{ width: "100px", height: "40px" }}
+            loading={
+              editVillaForm.mutation.isPending ||
+              createVillaForm.mutation.isPending
+            }
           >
             {isEditing ? "Edit Villa" : "Add Villa"}
           </Button>

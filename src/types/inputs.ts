@@ -8,4 +8,5 @@ export type Inputs = {
     rooms: number,
     bathrooms: number,
     price: number,
+    isForSale: boolean | undefined;
    }

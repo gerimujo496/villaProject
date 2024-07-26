@@ -1,5 +1,5 @@
-import React from 'react'
-import VillaForm from '../VillaForm'
+import React from "react";
+import VillaForm from "../VillaForm/VillaForm";
 
 interface CreateVillaFormProps {
   isModalOpen: boolean;
@@ -7,9 +7,7 @@ interface CreateVillaFormProps {
   setSelectedVilla: any;
 }
 const CreateVillaForm: React.FC<CreateVillaFormProps> = (props) => {
-  return (
-    <VillaForm {...props} />
-  )
-}
+  return <VillaForm {...props} />;
+};
 
-export default CreateVillaForm
+export default CreateVillaForm;
