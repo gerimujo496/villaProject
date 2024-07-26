@@ -24,6 +24,17 @@ interface Props {
 }
 
 const VillaCard = ({ villa }: Props) => {
+  const openNotification = (
+    message: string,
+    description: string,
+    placement: NotificationPlacement
+  ) => {
+    api.info({
+      message,
+      description,
+      placement,
+    });
+  };
   const navigate = useNavigate();
   const { mutate } = useSellVilla();
 
@@ -42,26 +53,18 @@ const VillaCard = ({ villa }: Props) => {
 
   const [api, contextHolder] = notification.useNotification();
 
-  const openNotification = (
-    message: string,
-    description: string,
-    placement: NotificationPlacement
-  ) => {
-    api.info({
-      message,
-      description,
-      placement,
-    });
-  };
-
   const buyVilla = () => {
     if (villa.isForSale) {
       mutate(villa.id, {
+        onSettled: () => {
+          return "done";
+        },
         onSuccess: () => {
-          openNotification("Success", "The villa is bought", "topLeft");
           setVillaIsBoughtToTrue(villa.id);
           removeVillaFromBuyList(villa.id);
-          removeVillaFromWishList(villa.id);
+
+          openNotification("Success", "The villa is bought", "topLeft");
+          return "done";
         },
         onError: () => {
           openNotification("Error", "An error occurred", "topLeft");

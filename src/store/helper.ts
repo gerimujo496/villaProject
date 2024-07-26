@@ -32,7 +32,7 @@ export const addVillaToWishList = (set: any) => (villa: Villa) => {
 
 export const removeVillaFromWishList = (set: any) => (id: string) => {
   const villaWishListFromLocalStorage = localStorage.getItem("vilaWishList");
-
+ 
   if (villaWishListFromLocalStorage) {
     const villaWishListFromLocalStorageInArray: Villa[] = JSON.parse(
       villaWishListFromLocalStorage
@@ -86,7 +86,7 @@ export const removeVillaFromBuyList = (set: any) => (id: string) => {
     const newVilaBuyList = villaBuyListFromLocalStorageInArray.filter(
       (item) => item.id != id
     );
-    console.log("u hoqqqq", newVilaBuyList);
+    
     localStorage.setItem("vilaBuyList", JSON.stringify(newVilaBuyList));
   }
 
@@ -94,7 +94,7 @@ export const removeVillaFromBuyList = (set: any) => (id: string) => {
     villaBuyList: [...store.villaBuyList.filter((item) => item.id != id)],
   }));
 };
-const setVillaBuyListToTrue =(set:any)=>(id:string)=>{
+const setVillaBuyListToTrue = (set: any) => (id: string) => {
   const villaBuyListFromLocalStorage = localStorage.getItem("vilaBuyList");
 
   if (villaBuyListFromLocalStorage) {
@@ -106,7 +106,7 @@ const setVillaBuyListToTrue =(set:any)=>(id:string)=>{
     );
     localStorage.setItem("vilaBuyList", JSON.stringify(newVilaBuyList));
   }
-}
+};
 export const setVillaIsBoughtToTrue = (set: any) => (id: string) => {
  
 
@@ -120,3 +120,5 @@ export const setVillaIsBoughtToTrue = (set: any) => (id: string) => {
     ),
   }));
 };
+
+

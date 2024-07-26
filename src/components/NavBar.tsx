@@ -21,7 +21,7 @@ const NavBar = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  //const { villaWishList, villaBuyList } = useStore();
+  const { villaWishList, villaBuyList } = useStore();
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -42,10 +42,10 @@ const NavBar = () => {
     {
       key: "/wishlist",
       label: <Link to="/wishlist">Wishlist</Link>,
-      icon:<HeartOutlined />
+      icon:<Badge  count={villaWishList.length} ><HeartOutlined /></Badge>
     },
     {
-      label: <Badge style={{width:10}} count={10} ><span onClick={showModal}>Cart List</span></Badge>,
+      label: <Badge style={{width:10}} count={villaBuyList.length} ><span onClick={showModal}>Cart List</span></Badge>,
       key: "/cartList",
       icon: <ShoppingCartOutlined size={30} onClick={showModal} />,
     },
