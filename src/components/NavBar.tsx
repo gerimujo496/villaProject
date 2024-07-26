@@ -4,23 +4,24 @@ import {
   ShoppingCartOutlined,
   LogoutOutlined,
   UserOutlined,
+  HeartOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Button, Menu, Modal } from "antd";
+import { Badge, Button, Menu, Modal } from "antd";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { isAdminAuthenticated } from "../utils/auth";
 import { BuyListElement } from "./BuyListElement/BuyListElement";
 import { ModalCart } from "./ModalCart/ModalCart";
+import { useStore } from "../store/store";
 
 type MenuItem = Required<MenuProps>["items"][number];
-
 
 const NavBar = () => {
   const [current, setCurrent] = useState("/");
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const { villaWishList, villaBuyList } = useStore();
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -41,11 +42,12 @@ const NavBar = () => {
     {
       key: "/wishlist",
       label: <Link to="/wishlist">Wishlist</Link>,
+      icon:<Badge  count={villaWishList.length} ><HeartOutlined /></Badge>
     },
     {
-      label: <span onClick={showModal}>Cart List</span>,
+      label: <Badge style={{width:10}} count={villaBuyList.length} ><span onClick={showModal}>Cart List</span></Badge>,
       key: "/cartList",
-      icon: <ShoppingCartOutlined onClick={showModal} />,
+      icon: <ShoppingCartOutlined size={30} onClick={showModal} />,
     },
     ...(isAdminAuthenticated()
       ? [
@@ -75,7 +77,11 @@ const NavBar = () => {
 
   return (
     <div>
-     <ModalCart  isModalOpen={isModalOpen} handleCancel={handleCancel} handleOk={handleOk}  />
+      <ModalCart
+        isModalOpen={isModalOpen}
+        handleCancel={handleCancel}
+        handleOk={handleOk}
+      />
       <Menu selectedKeys={[current]} mode="horizontal" items={items} />
     </div>
   );

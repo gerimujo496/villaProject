@@ -37,7 +37,10 @@ export const formatVillaCardProperties = (villa: Villa) => {
   return [
     { propertyName: "Price", propertyData: `${villa.price} €` },
     { propertyName: "Area", propertyData: `${villa.area} m²` },
-    { propertyName: "Location", propertyData: `${villa.locationType} ,${villa.location} ` },
+    {
+      propertyName: "Location",
+      propertyData: `${villa.locationType} ,${villa.location} `,
+    },
     { propertyName: "Floors", propertyData: villa.floors },
     { propertyName: "Rooms", propertyData: villa.rooms },
     { propertyName: "Bathrooms", propertyData: villa.bathrooms },
