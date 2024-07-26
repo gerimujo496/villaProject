@@ -1,15 +1,16 @@
-import { Col, Row, Typography } from "antd";
-import VillaFilter from "../components/VillaFilter";
+import { Alert, Col, Flex, Row, Spin, Typography } from "antd";
+import VillaFilter from "../components/VillaFilter/VillaFilter";
 import VillaCard from "../components/VillaCard/VillaCard";
 import { useVillasTable } from "../hooks/useVillaTable";
 import { filteredVillasFn } from "../utils/filter";
 import { useStore } from "../store/store";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const { Title } = Typography;
 
 const VillaList = () => {
-  const { data } = useVillasTable();
-  const { location, locationType, floors, bathrooms, price } = useStore();
+  const { data, isError, isLoading } = useVillasTable();
+  const { location, locationType, floors, bathrooms, price, isForSale } = useStore();
 
   const filters = {
     location,
@@ -17,74 +18,56 @@ const VillaList = () => {
     floors,
     bathrooms,
     price,
+    isForSale
   };
 
   const filteredVillasArray = filteredVillasFn(data, filters);
 
+  if (isError) {
+    return (
+      <>
+        <VillaFilter />
+        <Alert
+          message="Error Message"
+          description="Data could not loaded. Please try again later"
+          type="error"
+        />
+      </>
+    );
+  }
+
   return (
     <div style={{ padding: "2rem", backgroundColor: "#f0f2f5" }}>
       <VillaFilter />
-      <Row gutter={[16, 24]} justify="center">
-        {filteredVillasArray && filteredVillasArray.length > 0 ? (
-          filteredVillasArray.map((villa) => (
-            <Col key={villa.id} xs={24} sm={12} md={8} lg={6}>
-              <VillaCard villa={villa} />
+      {isLoading ? (
+        <Flex align="center" gap="middle">
+          <Spin
+            fullscreen={true}
+            indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />}
+          />
+        </Flex>
+      ) : (
+        <Row gutter={[16, 24]} justify="start">
+          {filteredVillasArray && filteredVillasArray.length > 0 ? (
+            filteredVillasArray.map((villa) => (
+              <Col key={villa.id} xs={24} sm={12} md={8} lg={6}>
+                <VillaCard villa={villa} />
+              </Col>
+            ))
+          ) : (
+            <Col span={24}>
+              <Title
+                level={4}
+                style={{ textAlign: "center", margin: "2rem 0" }}
+              >
+                There are no villas for the applied filters!
+              </Title>
             </Col>
-          ))
-        ) : (
-          <Col span={24}>
-            <Title level={4} style={{ textAlign: "center", margin: "2rem 0" }}>
-              There are no villas for the applied filters!
-            </Title>
-          </Col>
-        )}
-      </Row>
+          )}
+        </Row>
+      )}
     </div>
   );
 };
 
 export default VillaList;
-
-// import { Col, Row } from "antd";
-// import VillaFilter from "../components/VillaFilter";
-// import VillaCard from "../components/VillaCard/VillaCard";
-// import { useVillasTable } from "../hooks/useVillaTable";
-// import { filteredVillasFn } from "../utils/filter";
-// import { useStore } from "../store/store";
-
-// const VillaList = () => {
-//   const { data } = useVillasTable();
-//   const { location, locationType, floors, bathrooms, price } =
-//     useStore();
-
-//   const filters = {
-//     location,
-//     locationType,
-//     floors,
-//     bathrooms,
-//     price,
-//   };
-
-//   const filteredVillasArray = filteredVillasFn(data, filters);
-
-//   return (
-//     <>
-//       <VillaFilter />
-//       <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-//         {filteredVillasArray ? (
-//           filteredVillasArray?.map((villa) => (
-//             <Col key={villa.id} className="gutter-row" span={6}>
-//               <VillaCard key={villa.id} villa={villa} />
-//             </Col>
-//           ))
-//         ) : (
-//           <h1 style={{ width: "100%", textAlign: "center" }}>
-//             There are no villas for the applied filters!
-//           </h1>
-//         )}
-//       </Row>
-//     </>
-//   );
-// };
-
-// export default VillaList;

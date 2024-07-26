@@ -1,5 +1,3 @@
-
-
 import { useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getVillas, deleteVilla } from '../services/villasServices';
@@ -11,7 +9,7 @@ import { Input, Button, Space, Modal } from 'antd';
 
 export const useVillasTable = () => {
   const queryClient = useQueryClient();
-  const { data, error, isLoading } = useQuery<Villa[]>({
+  const { data, error, isLoading, isError } = useQuery<Villa[]>({
     queryKey: ['villas'],
     queryFn: getVillas,
   });
@@ -93,6 +91,7 @@ export const useVillasTable = () => {
   return {
     data,
     error,
+    isError,
     isLoading,
     searchText,
     searchedColumn,

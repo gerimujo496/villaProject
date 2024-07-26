@@ -26,6 +26,10 @@ export const filterVillas = (villasArray: Villa[], filters: Filters) => {
       filters.locationType && filters.locationType !== "all"
         ? villa.locationType === filters.locationType
         : true;
+    const matchesIsForSale =
+      filters.isForSale
+        ? filters.isForSale === villa.isForSale 
+        : true;
     const matchesPrice =
       filters.price && filters.price !== "all"
         ? (filters.price === "10000-30000" &&
@@ -45,6 +49,7 @@ export const filterVillas = (villasArray: Villa[], filters: Filters) => {
       matchesFloors &&
       matchesBathrooms &&
       matchesLocationType &&
+      matchesIsForSale&&
       matchesPrice
     );
   });

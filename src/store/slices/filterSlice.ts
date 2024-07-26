@@ -14,12 +14,14 @@ export const createFilterSlice: StateCreator<FilterSlice> = (set) => ({
   bathrooms: initialFilterValues.bathrooms,
   locationType: initialFilterValues.locationType,
   price: initialFilterValues.price,
+  isForSale: initialFilterValues.isForSale,
   applyFilters: (filters) =>
     set(() => ({
       location: filters.location,
       floors: filters.floors,
       bathrooms: filters.bathrooms,
       locationType: filters.locationType,
-      price: filters.price
+      price: filters.price,
+      isForSale: filters.isForSale
     })),
 });
